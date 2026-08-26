@@ -53,14 +53,6 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
 - **Formatting**: Prettier 3 (double quotes, trailing commas, 100 width)
 - **Git Hooks**: Husky 9 + lint-staged + @commitlint/config-conventional
 
-## Screenshots
-
-| Home Page                          | Docs Viewer                               | Components                                     |
-| ---------------------------------- | ----------------------------------------- | ---------------------------------------------- |
-| ![Home](docs/screenshots/home.png) | ![Docs](docs/screenshots/docs-viewer.png) | ![Components](docs/screenshots/components.png) |
-
-_Add screenshots to `docs/screenshots/` directory_
-
 ## Getting Started
 
 ### Prerequisites
