@@ -3,9 +3,14 @@
 > **Status**: ACTIVE
 > **Last Updated**: 2026-08-27
 
-## Overview
+[![CI](https://github.com/stsgs1980/Dribble-Design-Codex/actions/workflows/ci.yml/badge.svg)](https://github.com/stsgs1980/Dribble-Design-Codex/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC.svg)](https://tailwindcss.com/)
 
-Dribble Design Codex — справочное руководство и пример реализации дизайн-системы уровня Dribbble на современном React-стеке. Проект демонстрирует лучшие практики типографики, анимаций, визуализации данных и UI-компонентов для создания «дорогого» и отзывчивого пользовательского интерфейса.
+Dribble Design Codex is a reference guide and reference implementation of a Dribbble-level design system built with a modern React stack. It demonstrates best practices for typography, animations, data visualization, and UI components to create premium, responsive user interfaces.
 
 ## Table of Contents
 
@@ -19,16 +24,16 @@ Dribble Design Codex — справочное руководство и прим
 
 ## Features
 
-- **Дизайн-система уровня Dribbble** — типографика, пространство, цвет, иерархия (часть 1 гайда)
-- **Полный технологический стек** — Tailwind CSS 4, Radix UI / Untitled UI, Framer Motion, Magic UI, React Spring
-- **Визуализация данных** — @xyflow/react (графы), Tremor + Recharts (дашборды), react-syntax-highlighter
-- **Продвинутые анимации** — staggered reveal, scroll-triggered, layout animations, number tickers, Lottie
-- **CSS-эффекты без зависимостей** — noise-текстура, glassmorphism, mesh-градиенты, animated borders, spotlight-hover
-- **Иконки** — Phosphor Icons (6 стилей, duotone) + Iconify React (резерв)
-- **Формы и состояние** — React Hook Form + Zod, Zustand, TanStack Query
-- **Документация** — встроенный docs-viewer с MDX, подсветкой кода, оглавлением
-- **TypeScript strict mode** — полная типизация, path aliases (@/*)
-- **Качество кода** — ESLint 9 (flat config), Prettier, Husky, lint-staged, commitlint, custom rules (unicode-policy, code-block-language)
+- **Dribbble-level Design System** — typography, spacing, color, hierarchy (Part 1 of the guide)
+- **Complete Tech Stack** — Tailwind CSS 4, Radix UI / Untitled UI, Framer Motion, Magic UI, React Spring
+- **Data Visualization** — @xyflow/react (graphs), Tremor + Recharts (dashboards), react-syntax-highlighter
+- **Advanced Animations** — staggered reveal, scroll-triggered, layout animations, number tickers, Lottie
+- **Zero-dependency CSS Effects** — noise texture, glassmorphism, mesh gradients, animated borders, spotlight-hover
+- **Icons** — Phosphor Icons (6 weights, duotone) + Iconify React (fallback)
+- **Forms & State** — React Hook Form + Zod, Zustand, TanStack Query
+- **Documentation** — built-in docs viewer with MDX, syntax highlighting, table of contents
+- **TypeScript Strict Mode** — full typing, path aliases (@/*)
+- **Code Quality** — ESLint 9 (flat config), Prettier, Husky, lint-staged, commitlint, custom rules (unicode-policy, code-block-language)
 
 ## Tech Stack
 
@@ -36,7 +41,7 @@ Dribble Design Codex — справочное руководство и прим
 - **Framework**: Next.js 16 (App Router, Turbopack, standalone output)
 - **Language**: TypeScript 5 (strict, ES2022)
 - **Styling**: Tailwind CSS 4 + @tailwindcss/postcss, clsx + tailwind-merge + cva
-- **UI Primitives**: Radix UI (40+ компонентов) / Untitled UI React
+- **UI Primitives**: Radix UI (40+ components) / Untitled UI React
 - **Animations**: Framer Motion 12, Magic UI, react-spring, auto-animate, Lenis
 - **Data Viz**: @xyflow/react ^12 + dagre, Tremor, Recharts
 - **Forms/Validation**: React Hook Form 7 + Zod 4
@@ -48,56 +53,64 @@ Dribble Design Codex — справочное руководство и прим
 - **Formatting**: Prettier 3 (double quotes, trailing commas, 100 width)
 - **Git Hooks**: Husky 9 + lint-staged + @commitlint/config-conventional
 
+## Screenshots
+
+| Home Page                          | Docs Viewer                               | Components                                     |
+| ---------------------------------- | ----------------------------------------- | ---------------------------------------------- |
+| ![Home](docs/screenshots/home.png) | ![Docs](docs/screenshots/docs-viewer.png) | ![Components](docs/screenshots/components.png) |
+
+_Add screenshots to `docs/screenshots/` directory_
+
 ## Getting Started
 
 ### Prerequisites
 
 - Node.js >= 20.12.0
-- npm (входит в Node.js)
+- npm (included with Node.js)
 
 ### Installation
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/stsgs1980/Dribble-Design-Codex.git
    cd Dribble-Design-Codex
    ```
-2. Установите зависимости:
+2. Install dependencies:
    ```bash
    npm install
    ```
-3. Настройте переменные окружения:
+3. Configure environment variables:
    ```bash
    cp .env.example .env
-   # Отредактируйте .env при необходимости
+   # Edit .env if needed
    ```
-4. Инициализируйте базу данных:
+4. Initialize database:
    ```bash
    npm run db:push
    npm run db:generate
    ```
-5. Запустите dev-сервер:
+5. Start development server:
    ```bash
    npm run dev
    ```
-   Откройте http://localhost:3000
+   Open http://localhost:3000
 
 ## Scripts
 
-- `npm run dev` — запуск development сервера (Turbopack, порт 3000)
-- `npm run build` — production сборка (standalone output в .next/standalone/)
-- `npm run start` — запуск production сервера
-- `npm run lint` — проверка кода через ESLint (0 errors policy)
-- `npm run format` — форматирование кода через Prettier (`npx prettier --write .`)
-- `npm run validate` — комплексная проверка (lint + typecheck + build)
-- `npm run db:push` — Prisma db push (создание схемы в БД)
-- `npm run db:generate` — Prisma generate (генерация клиента)
+- `npm run dev` — start development server (Turbopack, port 3000)
+- `npm run build` — production build (standalone output in .next/standalone/)
+- `npm run start` — start production server
+- `npm run lint` — run ESLint (0 errors policy)
+- `npm run format` — format code with Prettier (`npx prettier --write .`)
+- `npm run validate` — full validation (lint + typecheck + build)
+- `npm run db:push` — Prisma db push (create schema in DB)
+- `npm run db:generate` — Prisma generate (generate client)
 - `npm run db:migrate` — Prisma migrate dev
 - `npm run db:reset` — Prisma migrate reset
 
 ## Architecture
 
-Проект использует **Next.js App Router** с группировкой по доменам:
+The project uses **Next.js App Router** with domain-based grouping:
 
 ```
 src/
@@ -129,28 +142,28 @@ src/
     └── utils.ts           # cn(), formatters, helpers
 ```
 
-**Документация** — в `docs/` (design-guide.md + sources/) и `src/components/docs/` (интерактивный просмотрщик).
+**Documentation** — in `docs/` (design-guide.md + sources/) and `src/components/docs/` (interactive viewer).
 
-**Конфигурация** — корневые файлы: `eslint.config.mjs`, `tsconfig.base.json`, `tailwind.config.ts`, `next.config.ts`, `.prettierrc`, `.editorconfig`.
+**Configuration** — root files: `eslint.config.mjs`, `tsconfig.base.json`, `tailwind.config.ts`, `next.config.ts`, `.prettierrc`, `.editorconfig`.
 
 ## Contributing
 
-1. Создайте новую ветку: `git checkout -b feat/your-feature` (или `fix/`, `refactor/`, `docs/`, `chore/`)
-2. Внесите изменения, следуя код-стайлу (Prettier + ESLint)
-3. Сделайте коммит (Conventional Commits):
+1. Create a new branch: `git checkout -b feat/your-feature` (or `fix/`, `refactor/`, `docs/`, `chore/`)
+2. Make changes following code style (Prettier + ESLint)
+3. Commit (Conventional Commits):
    ```bash
    git commit -m "feat: add your feature"
    ```
-   Husky автоматически запустит `prettier --write` и `eslint --fix` на staged файлах
-4. Отправьте изменения: `git push origin feat/your-feature`
-5. Создайте Pull Request
+   Husky automatically runs `prettier --write` and `eslint --fix` on staged files
+4. Push changes: `git push origin feat/your-feature`
+5. Create a Pull Request
 
-**Правила**:
+**Rules**:
 
-- Все PR должны проходить `npm run lint` (0 errors), `npx tsc --noEmit`, `npm run build`
-- Коммиты — Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, `test:`, `perf:`)
-- Ветки — `feat/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`, `test/*`
+- All PRs must pass `npm run lint` (0 errors), `npx tsc --noEmit`, `npm run build`
+- Commits — Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, `test:`, `perf:`)
+- Branches — `feat/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`, `test/*`
 
 ## License
 
-Этот проект распространяется под лицензией MIT.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
