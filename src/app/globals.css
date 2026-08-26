@@ -1,0 +1,322 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================================
+   Documentation viewer
+   ============================================================ */
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+}
+
+:root {
+  /* Emerald accent (oklch ~0.7 0.15 162), darkened for contrast on light surfaces */
+  --brand: oklch(0.53 0.13 162);
+  --brand-foreground: oklch(0.985 0 0);
+}
+
+.dark {
+  --brand: oklch(0.75 0.15 162);
+  --brand-foreground: oklch(0.17 0.05 170);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+::selection {
+  background-color: oklch(0.75 0.15 162 / 0.3);
+}
+
+/* Fixed noise texture overlay (feTurbulence data-URI, SVG tile) */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Mesh gradient glow behind the hero area (emerald family only) */
+.mesh-glow {
+  position: absolute;
+  inset: -12% -8% -34% -8%;
+  pointer-events: none;
+  background:
+    radial-gradient(44rem 22rem at 16% 6%, oklch(0.75 0.15 162 / 0.16), transparent 68%),
+    radial-gradient(34rem 18rem at 78% 10%, oklch(0.68 0.12 150 / 0.11), transparent 62%),
+    radial-gradient(30rem 16rem at 50% -6%, oklch(0.8 0.09 165 / 0.07), transparent 60%);
+}
+
+/* Thin muted scrollbar for the TOC ScrollArea */
+.toc-scroll [data-slot="scroll-area-scrollbar"] {
+  width: 3px;
+  padding: 0;
+}
+.toc-scroll [data-slot="scroll-area-thumb"] {
+  background: color-mix(in oklab, var(--muted-foreground) 32%, transparent);
+}
+.toc-scroll [data-slot="scroll-area-thumb"]:hover {
+  background: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+}
+
+/* ------------------------------------------------------------
+   Markdown body typography (elements rendered without a custom
+   react-markdown component; structural elements such as
+   headings, code, tables and checkboxes are styled in JSX)
+   ------------------------------------------------------------ */
+.md-body {
+  font-size: 15px;
+  line-height: 1.75;
+  color: color-mix(in oklab, var(--foreground) 90%, transparent);
+  overflow-wrap: break-word;
+}
+
+.md-body > :first-child {
+  margin-top: 0;
+}
+
+.md-body p {
+  margin: 0 0 1.1rem;
+}
+
+.md-body ul {
+  margin: 0 0 1.1rem;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.md-body ol {
+  margin: 0 0 1.1rem;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+
+.md-body li {
+  margin: 0.3rem 0;
+}
+
+.md-body li > p {
+  margin: 0.3rem 0;
+}
+
+.md-body li::marker {
+  color: var(--muted-foreground);
+}
+
+.md-body ul ul,
+.md-body ol ol,
+.md-body ul ol,
+.md-body ol ul {
+  margin: 0.35rem 0;
+}
+
+.md-body strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.md-body hr {
+  margin: 2.25rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.md-body img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+}
+
+/* Blockquote: muted callout with a left accent border */
+.md-body blockquote {
+  margin: 1.5rem 0;
+  padding: 0.35rem 1.1rem;
+  border-left: 2px solid color-mix(in oklab, var(--brand) 55%, transparent);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: color-mix(in oklab, var(--muted) 45%, transparent);
+  color: var(--muted-foreground);
+}
+
+.md-body blockquote > p {
+  margin: 0.45rem 0;
+}
+
+/* GFM tables (rendered inside an overflow wrapper component) */
+.md-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+}
+
+.md-body thead {
+  background: color-mix(in oklab, var(--muted) 55%, transparent);
+}
+
+.md-body th {
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.md-body td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  vertical-align: top;
+}
+
+.md-body tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* GFM task lists: checkbox replaces the bullet */
+.md-body ul.contains-task-list,
+.md-body ul:has(> li.task-list-item) {
+  padding-left: 0.35rem;
+  list-style: none;
+}
+
+.md-body li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0.45rem 0;
+  list-style: none;
+}
+
+.md-body li.task-list-item > :first-child {
+  margin-top: 5px;
+}
+
+.md-body li.task-list-item > p {
+  margin: 0;
+}

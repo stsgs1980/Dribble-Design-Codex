@@ -1,0 +1,232 @@
+## Часть 1. Фундамент (правила важнее инструментов)
+
+Крутой дизайн строится на правилах, а не на иниции. 4 кита:
+
+### 1.1 Типографика — 80% дизайна
+
+- Настройте `line-height`: **1.5–1.7** для body-текста
+- Контролируйте `letter-spacing` и иерархию заголовков
+- Шрифтовая система:
+
+| Роль | Шрифт | Почему |
+|---|---|---|
+| Заголовки | **Geist** / **Satoshi** / Cabinet Grotesk | Выразительный, геометричный; Inter «переиспользован до смерти» |
+| Body | Inter | Нейтральный, отлично читается |
+| Код | JetBrains Mono | Стандарт |
+
+Примечание: замена заголовочного шрифта — минимальное изменение с максимальным эффектом.
+
+### 1.2 Пространство (Whitespace)
+
+- Система **8px grid**
+- Не лепите элементы друг к другу — воздух делает дизайн дорогим
+
+### 1.3 Цвет и контраст
+
+- Правило **60-30-10**: 60% основной цвет, 30% вторичный, 10% акцент
+- Всегда проверяйте контрастность текста (инструмент Contrast Checker)
+
+### 1.4 Визуальная иерархия
+
+Пользователь за **3 секунды** понимает: куда смотреть -> что читать -> куда нажать.
+
+Базовая книга: **"Refactoring UI"** (Adam Wathan & Steve Schoger).
+
+---
+
+## Часть 2. Полный технологический стек
+
+### UI-фундамент
+
+| Библиотека | Роль |
+|---|---|
+| Tailwind CSS 4 + @tailwindcss/postcss | Утилитарный CSS, системность отступов/цветов |
+| Untitled UI React *или* shadcn/ui + Radix | Компоненты (кнопки, модалки, таблицы). Untitled UI — более "дизайнерский" вид из коробки; shadcn — CLI и полный контроль кода |
+| clsx + tailwind-merge + cva | Утилита `cn()` и вариации компонентов |
+| React Aria | Accessibility-примитивы (замена Radix при выборе Untitled UI) |
+
+### Визуализация данных
+
+| Библиотека | Роль |
+|---|---|
+| @xyflow/react ^12 + dagre | Node-based графы (пайплайны): узлы-этапы, рёбра с анимацией потока данных, drag and drop, мини-карта |
+| Tremor (+ recharts) | Дашборд-карточки, мини-графики |
+| react-syntax-highlighter | Превью кода |
+
+### Анимации
+
+| Библиотека | Что даёт |
+|---|---|
+| Motion / Framer Motion | База: mount/unmount, layout, gesture, `useInView`, `AnimatePresence` |
+| Magic UI (ручная интеграция) | Shimmer-border, animated beam, marquee, number ticker, dock, particles, border-beam |
+| react-spring | Физические пружины — drag-интеракции, elastic-эффекты |
+| auto-animate | Авто-анимации списков и DOM-перестроек |
+| Lenis | Плавный инерционный скролл — "дорогой" feel |
+| sonner | Тосты |
+| lottie-react | Lottie для пустых состояний и загрузок |
+
+### Иконки
+
+| Библиотека | Почему не Lucide |
+|---|---|
+| Phosphor Icons (основной) | 6 стилей: thin, light, regular, bold, fill, duotone. Двухцветные дают глубину: duotone — активные состояния, regular — неактивные |
+| Iconify React (резерв) | Более 150 000 иконок через единый `<Icon>` компонент |
+
+### Эффекты (чистый CSS, без зависимостей)
+
+| Эффект | Реализация | Применение |
+|---|---|---|
+| Noise-текстура | SVG-фильтр, opacity ~0.03 | Фон всей страницы — "аналоговая" текстура как у Linear/Vercel/Raycast |
+| Glassmorphism | `backdrop-filter: blur(12px) saturate(180%)` + полупрозрачный фон | Навбар, модалки, floating-панели, тултипы |
+| Mesh-градиенты | Слои `radial-gradient` | Hero, фон дашборда, пустые состояния |
+| Animated gradient borders | `@property` + conic-gradient или shimmer-border | Карточки, активные элементы |
+| Spotlight-hover | CSS + JS свечение за курсором | Карточки (как у Stripe, Linear) |
+| Grain overlay | `feTurbulence`, крупное зерно | Точечно на hero/CTA |
+
+```css
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+```
+
+```css
+.mesh-gradient {
+  background:
+    radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.10) 0, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+}
+```
+
+Noise-текстура через SVG-фильтр:
+
+```css
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background: url("data:image/svg+xml,..."); /* feTurbulence */
+}
+```
+
+### Иллюстрации и графика
+
+| Инструмент | Применение |
+|---|---|
+| Spline (@splinetool/react-spline) | Интерактивная 3D-сцена на hero |
+| three.js + @react-three/fiber | Если возможностей Spline недостаточно |
+| lottie-react | Пустые состояния, загрузка, успех пайплайна |
+| React SVG Pan Zoom | Зум и пан SVG-превью |
+
+Примеры Lottie-сценариев для пайплайна:
+
+- extract: анимация "сканирования" страницы
+- analyze: разложение на слои/токены
+- generate: сборка кода из блоков
+- empty state: лампа с шестерёнками
+
+### Состояние, данные, формы
+
+- Zustand — клиентское состояние
+- TanStack Query — серверное состояние, кэш
+- React Hook Form + Zod — формы и валидация
+
+### Карта анимаций продукта
+
+| Элемент | Анимация | Инструмент |
+|---|---|---|
+| Навбар при скролле | Backdrop-blur + shrink | Framer Motion |
+| Карточки | Staggered reveal при скролле | Framer Motion `useInView` |
+| Пайплайн | Animated beam по рёбрам | Magic UI + @xyflow |
+| StatsCard | Number ticker | Magic UI |
+| Wizard-шаги | Slide left/right | AnimatePresence |
+| Пустые состояния | Lottie | lottie-react |
+| Загрузка | Skeleton + shimmer | Untitled UI + CSS |
+| CTA | Shimmer-border / border-beam | Magic UI |
+
+---
+
+## Часть 3. Насмотренность (Visual Library)
+
+Нельзя сделать круто, если не видел крутого. Разбирайте сайты по косточкам (сохраняйте в Pinterest / Are.na):
+
+- godly.website — лучшая подборка современных анимированных сайтов
+- awwwards.com — классика; изучайте переходы страницами
+- land-book.com — структура и композиция лендингов
+- mobbin.com — реальные UI-паттерны топовых SaaS
+- linear.app, vercel.com, raycast.com — эталоны тёмного B2B-дизайна
+
+YouTube:
+
+- Kevin Powell — лучший канал по CSS
+- DesignCourse (Gary Simon) — связка Figma + вёрстка
+- Jhey Tompkins — CSS-трюки, креативный фронтенд
+- Web Dev Simplified / Cosden Solutions — Framer Motion, Next.js
+
+Интерактив: CSSBattle.dev, документация Framer Motion.
+
+---
+
+## Часть 4. Практика: метод "Осознанного клонирования"
+
+1. Найдите на Awwwards/Godly сайт, который нравится.
+2. Сверстайте его пиксель-в-пиксель на Next.js + Tailwind.
+3. Воспроизведите анимации на Framer Motion.
+4. Решение реальных проблем ("как они сделали этот градиент?") и есть обучение.
+
+Упражнение: редизайн старого проекта в стиле Linear или Apple.
+
+AI как помощник: v0.dev для стартовой точки кода, Midjourney для идей и ассетов. Не замена, а ускоритель.
+
+---
+
+## Часть 5. Приоритеты внедрения
+
+Максимальный эффект при минимальных усилиях:
+
+1. [P1] Фундамент: типографика, 8px grid, 60-30-10, иерархия — без этого анимации не спасут
+2. [P2] Magic UI — максимум визуальной отдачи
+3. [P3] Замена шрифта заголовков (Geist/Satoshi) — одно CSS-правило, другое восприятие
+4. [P4] Noise + glassmorphism — чистый CSS, около 30 строк, добавляет тактильности
+5. [P5] Phosphor Icons — duotone даёт глубину
+6. [P6] Lenis + scroll-reveal — общая "дороговизна" ощущения
+7. [P7] Остальное (Spline, Lottie, three.js) — финальное полирование
+
+---
+
+## Часть 6. Чек-лист "Крутого фронтенда"
+
+- [ ] Мгновенная загрузка (оптимизация изображений, App Router, кэширование)
+- [ ] Микро-взаимодействия (кнопки реагируют скейлом/свечением, а не просто сменой цвета)
+- [ ] Идеальная адаптивность (mobile-first, проверка на реальных устройствах)
+- [ ] Доступность (a11y): семантические теги, фокус с клавиатуры, aria-атрибуты
+- [ ] Плавные переходы между страницами (AnimatePresence)
+- [ ] Noise-текстура на фоне страницы
+- [ ] Scroll-reveal во всех секциях
+- [ ] Контраст текста проверен
+
+---
+
+## Итоговая карта стека (полная, 100% покрытие)
+
+```text
+Фундамент:      Next.js + React 19 + TypeScript
+UI:             Tailwind CSS 4 + @tailwindcss/postcss
+                Untitled UI React (или shadcn/ui + Radix)
+                clsx + tailwind-merge + cva · React Aria (при Untitled UI)
+Визуализация:   @xyflow/react ^12 + dagre · Tremor + recharts
+                react-syntax-highlighter
+Анимации:       Motion/Framer Motion · Magic UI · react-spring · auto-animate
+                Lenis · sonner
+Иконки:         Phosphor Icons (duotone) + Iconify React (резерв)
+Эффекты (CSS):  noise-текстура · glassmorphism · mesh-градиенты
+                animated gradient borders (@property) · spotlight-hover · grain overlay
+Графика:        Spline (hero) · three.js + @react-three/fiber (резерв)
+                lottie-react (состояния) · React SVG Pan Zoom
+Состояние:      Zustand (клиентское) + TanStack Query (серверное)
+Формы:          React Hook Form + Zod
+Шрифты:         Geist / Satoshi (заголовки) · Inter (body) · JetBrains Mono (код)
