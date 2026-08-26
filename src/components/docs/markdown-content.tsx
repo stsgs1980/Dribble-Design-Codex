@@ -47,9 +47,7 @@ function Reveal({
 }) {
   if (reduced) {
     const Tag = tag;
-    return (
-      <Tag className={className}>{children}</Tag>
-    );
+    return <Tag className={className}>{children}</Tag>;
   }
 
   const MotionTag = (motion as unknown as Record<RevealTag, typeof motion.p>)[tag];
@@ -106,19 +104,13 @@ function createComponents(reduced: boolean): Components {
     ),
 
     h4: ({ id, children }) => (
-      <h4
-        id={id}
-        className="mt-7 scroll-mt-24 text-[0.95rem] font-semibold text-foreground/90"
-      >
+      <h4 id={id} className="mt-7 scroll-mt-24 text-[0.95rem] font-semibold text-foreground/90">
         {children}
       </h4>
     ),
 
     h5: ({ id, children }) => (
-      <h5
-        id={id}
-        className="mt-6 scroll-mt-24 text-[0.9rem] font-semibold text-foreground/85"
-      >
+      <h5 id={id} className="mt-6 scroll-mt-24 text-[0.9rem] font-semibold text-foreground/85">
         {children}
       </h5>
     ),
@@ -174,10 +166,7 @@ function createComponents(reduced: boolean): Components {
         >
           {children}
           {isExternal && (
-            <ExternalLink
-              className="ml-0.5 inline size-3 align-[-0.125em]"
-              aria-hidden="true"
-            />
+            <ExternalLink className="ml-0.5 inline size-3 align-[-0.125em]" aria-hidden="true" />
           )}
         </a>
       );
@@ -236,11 +225,7 @@ export const MarkdownContent = React.memo(function MarkdownContent({
   );
 
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSlug]}
-      components={components}
-    >
+    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]} components={components}>
       {content}
     </ReactMarkdown>
   );

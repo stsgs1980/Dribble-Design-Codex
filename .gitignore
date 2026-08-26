@@ -1,7 +1,59 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
 
-# dependencies
-node_modules
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE (WebStorm / IntelliJ)
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Testing
+/coverage
+
+# Misc
+*.pem
+
+# Vercel
+.vercel
+
+# Local files
+local-*
+*.log
+dev.log
+dev.out.log
+server.log
+prompt
+
+# Skills directory
+/skills/
+
+# Local scripts & artifacts
+.zscripts/
+db/
+tool-results/
+
+# Yarn
 /.pnp
 .pnp.*
 .yarn/*
@@ -9,46 +61,3 @@ node_modules
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-local-*
-.claude
-.z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
-
-server.log
-# Skills directory
-/skills/

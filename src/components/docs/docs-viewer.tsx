@@ -54,16 +54,12 @@ export function DocsViewer({ docs }: { docs: DocPayload[] }) {
             Документы
           </p>
           <div className="px-3">
-            <DocList
-              docs={docs}
-              activeSlug={activeDoc.slug}
-              onSelect={selectDoc}
-            />
+            <DocList docs={docs} activeSlug={activeDoc.slug} onSelect={selectDoc} />
           </div>
           <div className="mt-auto px-5 pb-6">
             <p className="text-[11px] leading-relaxed text-muted-foreground">
-              Основной документ открывается по умолчанию. Тематические источники
-              доступны в этом списке.
+              Основной документ открывается по умолчанию. Тематические источники доступны в этом
+              списке.
             </p>
           </div>
         </aside>
@@ -119,18 +115,12 @@ export function DocsViewer({ docs }: { docs: DocPayload[] }) {
                   <div className="flex items-center gap-4 text-[13px] text-muted-foreground">
                     <span className="flex items-center gap-1.5">
                       <FileText className="size-3.5" aria-hidden="true" />
-                      {activeDoc.lines}{" "}
-                      {pluralRu(activeDoc.lines, "строка", "строки", "строк")}
+                      {activeDoc.lines} {pluralRu(activeDoc.lines, "строка", "строки", "строк")}
                     </span>
                     <span className="flex items-center gap-1.5">
                       <ListTree className="size-3.5" aria-hidden="true" />
                       {activeDoc.sections}{" "}
-                      {pluralRu(
-                        activeDoc.sections,
-                        "раздел",
-                        "раздела",
-                        "разделов",
-                      )}
+                      {pluralRu(activeDoc.sections, "раздел", "раздела", "разделов")}
                     </span>
                   </div>
                 </div>
@@ -169,9 +159,8 @@ export function DocsViewer({ docs }: { docs: DocPayload[] }) {
         <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-1.5 px-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))] pt-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <p>Документация проекта</p>
           <p>
-            {docs.length}{" "}
-            {pluralRu(docs.length, "документ", "документа", "документов")} ·
-            Markdown · Next.js
+            {docs.length} {pluralRu(docs.length, "документ", "документа", "документов")} · Markdown
+            · Next.js
           </p>
         </div>
       </footer>

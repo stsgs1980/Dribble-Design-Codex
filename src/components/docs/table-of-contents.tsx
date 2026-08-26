@@ -22,9 +22,7 @@ export function TableOfContents({
   className?: string;
 }) {
   const [query, setQuery] = React.useState("");
-  const [activeId, setActiveId] = React.useState<string>(
-    headings[0]?.id ?? "",
-  );
+  const [activeId, setActiveId] = React.useState<string>(headings[0]?.id ?? "");
 
   // Reset the highlight when the document changes.
   React.useEffect(() => {
@@ -50,10 +48,7 @@ export function TableOfContents({
         }
       }
       const documentElement = document.documentElement;
-      if (
-        window.scrollY + window.innerHeight >=
-        documentElement.scrollHeight - 80
-      ) {
+      if (window.scrollY + window.innerHeight >= documentElement.scrollHeight - 80) {
         currentId = headings[headings.length - 1].id;
       }
       setActiveId(currentId);
@@ -78,9 +73,7 @@ export function TableOfContents({
   const filtered = React.useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return headings;
-    return headings.filter((heading) =>
-      heading.text.toLowerCase().includes(normalized),
-    );
+    return headings.filter((heading) => heading.text.toLowerCase().includes(normalized));
   }, [headings, query]);
 
   const scrollTo = (id: string) => {
@@ -113,10 +106,7 @@ export function TableOfContents({
         </p>
       ) : (
         <ScrollArea className="toc-scroll -mr-3 mt-3 min-h-0 flex-1">
-          <nav
-            aria-label="Содержание документа"
-            className="flex flex-col gap-0.5 pr-2 pb-4"
-          >
+          <nav aria-label="Содержание документа" className="flex flex-col gap-0.5 pr-2 pb-4">
             {filtered.map((heading) => {
               const isActive = heading.id === activeId;
               return (
@@ -127,9 +117,7 @@ export function TableOfContents({
                   aria-current={isActive ? "true" : undefined}
                   className={cn(
                     "relative min-h-11 w-full rounded-md py-2 pr-2 text-left text-[13px] leading-snug transition-colors lg:min-h-0 lg:py-1.5",
-                    heading.depth === 2
-                      ? "pl-4 font-medium"
-                      : "pl-9 font-normal",
+                    heading.depth === 2 ? "pl-4 font-medium" : "pl-9 font-normal",
                     isActive
                       ? "text-brand"
                       : "text-foreground/65 hover:bg-muted/60 hover:text-foreground",

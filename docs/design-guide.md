@@ -70,11 +70,11 @@
 
 **Шрифтовая система:**
 
-| Роль | Шрифт | Обоснование |
-|---|---|---|
+| Роль      | Шрифт                                                          | Обоснование                                                    |
+| --------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
 | Заголовки | **Geist** (Vercel) / **Satoshi** (Fontshare) / Cabinet Grotesk | Выразительные, геометричные; Inter "переиспользован до смерти" |
-| Body | **Inter** | Нейтральный, отлично читается |
-| Код | **JetBrains Mono** | Стандарт для моноширинного кода |
+| Body      | **Inter**                                                      | Нейтральный, отлично читается                                  |
+| Код       | **JetBrains Mono**                                             | Стандарт для моноширинного кода                                |
 
 Ключевой принцип: **замена заголовочного шрифта — минимальное изменение с максимальным эффектом**. Одно CSS-правило полностью меняет восприятие продукта.
 
@@ -112,14 +112,14 @@
 
 Dribbble-уровень — это не одна библиотека, а **слои**. Каждый следующий слой усиливает предыдущий. Пропуск нижних слоёв делает верхние бессмысленными.
 
-| Слой | Состав | Вклад в результат |
-|---|---|---|
-| 1. База | shadcn/ui + Radix (или Untitled UI + React Aria), Tailwind CSS 4, Motion, Tremor | Около 40% визуального уровня |
-| 2. Анимированные компоненты | Magic UI: shimmer-border, animated beam, marquee, number ticker, dock, meteors, particles, border-beam | Переход с "хорошо" на "замечательно" |
-| 3. Типографика | Geist / Satoshi для заголовков, Inter для body, JetBrains Mono для кода | Выразительность, отстройка от шаблонных SaaS |
-| 4. Иконки | Phosphor Icons (duotone) как основной набор, Iconify как резерв | Глубина и премиальность |
-| 5. Текстуры и эффекты | Noise, glassmorphism, mesh-градиенты, grain, animated borders, spotlight, Lenis | "Тактильность" и кинематографичность |
-| 6. Иллюстрации и графика | Spline (3D hero), lottie-react (состояния), SVG-иллюстрации | "Тот самый" момент продукта |
+| Слой                        | Состав                                                                                                 | Вклад в результат                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------ | -------------------------------------------- |
+| 1. База                     | shadcn/ui + Radix (или Untitled UI + React Aria), Tailwind CSS 4, Motion, Tremor                       | Около 40% визуального уровня                 |
+| 2. Анимированные компоненты | Magic UI: shimmer-border, animated beam, marquee, number ticker, dock, meteors, particles, border-beam | Переход с "хорошо" на "замечательно"         |
+| 3. Типографика              | Geist / Satoshi для заголовков, Inter для body, JetBrains Mono для кода                                | Выразительность, отстройка от шаблонных SaaS |
+| 4. Иконки                   | Phosphor Icons (duotone) как основной набор, Iconify как резерв                                        | Глубина и премиальность                      |
+| 5. Текстуры и эффекты       | Noise, glassmorphism, mesh-градиенты, grain, animated borders, spotlight, Lenis                        | "Тактильность" и кинематографичность         |
+| 6. Иллюстрации и графика    | Spline (3D hero), lottie-react (состояния), SVG-иллюстрации                                            | "Тот самый" момент продукта                  |
 
 **Формула итогового рецепта:**
 
@@ -140,38 +140,38 @@ Dribbble-уровень — это не одна библиотека, а **сл
 
 ### 4.1. Фундамент
 
-| Технология | Роль |
-|---|---|
-| Next.js (App Router) | Фреймворк, маршрутизация, SSR/SSG, оптимизация |
-| React 19 | UI-рантайм |
-| TypeScript 5.9 | Строгая типизация |
+| Технология                            | Роль                                                    |
+| ------------------------------------- | ------------------------------------------------------- |
+| Next.js (App Router)                  | Фреймворк, маршрутизация, SSR/SSG, оптимизация          |
+| React 19                              | UI-рантайм                                              |
+| TypeScript 5.9                        | Строгая типизация                                       |
 | Tailwind CSS 4 + @tailwindcss/postcss | Утилитарный CSS: системность отступов, цветов, радиусов |
 
 ### 4.2. UI-слой: два равноценных пути
 
 **Путь A: shadcn/ui + Radix**
 
-| Библиотека | Роль |
-|---|---|
-| shadcn/ui | Компоненты через CLI (`npx shadcn add`), код принадлежит вам |
-| Radix UI | Headless-примитивы доступности под капотом shadcn |
+| Библиотека | Роль                                                         |
+| ---------- | ------------------------------------------------------------ |
+| shadcn/ui  | Компоненты через CLI (`npx shadcn add`), код принадлежит вам |
+| Radix UI   | Headless-примитивы доступности под капотом shadcn            |
 
 **Путь B: Untitled UI React + React Aria**
 
-| Библиотека | Версия | Роль |
-|---|---|---|
+| Библиотека        | Версия | Роль                                                                                |
+| ----------------- | ------ | ----------------------------------------------------------------------------------- |
 | Untitled UI React | latest | Основа: кнопки, инпуты, карточки, таблицы, модалки, дропдауны, аватары, breadcrumbs |
-| React Aria | ^1.20 | Accessibility-примитивы (заменяет Radix) |
+| React Aria        | ^1.20  | Accessibility-примитивы (заменяет Radix)                                            |
 
 **Критерии выбора:**
 
-| Критерий | shadcn/ui + Radix | Untitled UI + React Aria |
-|---|---|---|
-| Начальный вид | Требует настройки | Премиальный из коробки: скругления, тени, спейсинг настроены |
-| Контроль кода | Полный (компоненты в репозитории) | Ограничен API библиотеки |
-| Установка компонентов | CLI одной командой | Импорт из пакета |
-| Magic UI | Подключается через CLI | Ручная интеграция (перезапись примитивов) |
-| Кому подходит | Команды, которым нужен контроль | Быстрый запуск с "дизайнерским" видом |
+| Критерий              | shadcn/ui + Radix                 | Untitled UI + React Aria                                     |
+| --------------------- | --------------------------------- | ------------------------------------------------------------ |
+| Начальный вид         | Требует настройки                 | Премиальный из коробки: скругления, тени, спейсинг настроены |
+| Контроль кода         | Полный (компоненты в репозитории) | Ограничен API библиотеки                                     |
+| Установка компонентов | CLI одной командой                | Импорт из пакета                                             |
+| Magic UI              | Подключается через CLI            | Ручная интеграция (перезапись примитивов)                    |
+| Кому подходит         | Команды, которым нужен контроль   | Быстрый запуск с "дизайнерским" видом                        |
 
 Оба пути строятся поверх Tailwind CSS 4 и совместимы со всем остальным стеком этого гайда.
 
@@ -179,11 +179,11 @@ Dribbble-уровень — это не одна библиотека, а **сл
 
 ### 4.3. Утилиты слияния классов (нужны на обоих путях)
 
-| Библиотека | Версия | Роль |
-|---|---|---|
-| clsx | ^2.1 | Условное построение строк классов |
-| tailwind-merge | ^3.6 | Корректное слияние конфликтующих Tailwind-классов |
-| class-variance-authority (cva) | ^0.7 | Декларативные вариации компонентов |
+| Библиотека                     | Версия | Роль                                              |
+| ------------------------------ | ------ | ------------------------------------------------- |
+| clsx                           | ^2.1   | Условное построение строк классов                 |
+| tailwind-merge                 | ^3.6   | Корректное слияние конфликтующих Tailwind-классов |
+| class-variance-authority (cva) | ^0.7   | Декларативные вариации компонентов                |
 
 Утилита `cn()` — стандарт для всех компонентов проекта:
 
@@ -230,11 +230,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
 
 ### 5.1. Шрифтовая система
 
-| Роль | Основной вариант | Альтернативы |
-|---|---|---|
-| Заголовки (display, h1-h3) | **Geist** | Satoshi, Cabinet Grotesk |
-| Body-текст | **Inter** | — |
-| Код, моноширинный | **JetBrains Mono** | — |
+| Роль                       | Основной вариант   | Альтернативы             |
+| -------------------------- | ------------------ | ------------------------ |
+| Заголовки (display, h1-h3) | **Geist**          | Satoshi, Cabinet Grotesk |
+| Body-текст                 | **Inter**          | —                        |
+| Код, моноширинный          | **JetBrains Mono** | —                        |
 
 Правило отстройки: Inter для заголовков "переиспользован до смерти" — каждый второй SaaS собран на нём. Выразительный гротеск для заголовков + нейтральный Inter для body — рабочая пара уровня Linear/Vercel.
 
@@ -258,9 +258,7 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
       <body
@@ -275,7 +273,10 @@ export default function RootLayout({
 
 ```css
 /* globals.css: назначение ролей */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -283,22 +284,24 @@ body {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 }
 
-code, pre, kbd {
+code,
+pre,
+kbd {
   font-family: var(--font-mono), ui-monospace, monospace;
 }
 ```
 
 ### 5.3. Типографическая шкала
 
-| Уровень | Размер / line-height | letter-spacing | Tailwind |
-|---|---|---|---|
-| Display | 48-60px / 1.1 | -0.02em | `text-5xl md:text-6xl leading-[1.1] tracking-tight` |
-| H1 | 36-40px / 1.2 | -0.01em | `text-4xl leading-tight tracking-tight` |
-| H2 | 24-28px / 1.3 | -0.01em | `text-2xl md:text-3xl leading-snug tracking-tight` |
-| H3 | 20px / 1.4 | 0 | `text-xl leading-normal` |
-| Body | 16px / 1.6 | 0 | `text-base leading-relaxed` |
-| Small | 14px / 1.5 | 0 | `text-sm leading-normal` |
-| Caption | 12-13px / 1.5 | +0.01em | `text-xs text-muted-foreground` |
+| Уровень | Размер / line-height | letter-spacing | Tailwind                                            |
+| ------- | -------------------- | -------------- | --------------------------------------------------- |
+| Display | 48-60px / 1.1        | -0.02em        | `text-5xl md:text-6xl leading-[1.1] tracking-tight` |
+| H1      | 36-40px / 1.2        | -0.01em        | `text-4xl leading-tight tracking-tight`             |
+| H2      | 24-28px / 1.3        | -0.01em        | `text-2xl md:text-3xl leading-snug tracking-tight`  |
+| H3      | 20px / 1.4           | 0              | `text-xl leading-normal`                            |
+| Body    | 16px / 1.6           | 0              | `text-base leading-relaxed`                         |
+| Small   | 14px / 1.5           | 0              | `text-sm leading-normal`                            |
+| Caption | 12-13px / 1.5        | +0.01em        | `text-xs text-muted-foreground`                     |
 
 ### 5.4. Правила применения
 
@@ -313,11 +316,11 @@ code, pre, kbd {
 
 ### 6.1. Распределение 60-30-10 на практике
 
-| Доля | Роль | Пример в тёмной теме |
-|---|---|---|
-| 60% | Фон и базовые поверхности | background, зонах без содержимого |
-| 30% | Вторичные поверхности | карточки, панели, сайдбар, таблицы |
-| 10% | Акцент | primary-кнопки, ссылки, активные состояния, бейджи |
+| Доля | Роль                      | Пример в тёмной теме                               |
+| ---- | ------------------------- | -------------------------------------------------- |
+| 60%  | Фон и базовые поверхности | background, зонах без содержимого                  |
+| 30%  | Вторичные поверхности     | карточки, панели, сайдбар, таблицы                 |
+| 10%  | Акцент                    | primary-кнопки, ссылки, активные состояния, бейджи |
 
 Акцентный цвет не используется для декоративных элементов — только для действий и состояний.
 
@@ -362,17 +365,17 @@ code, pre, kbd {
 
 ### 6.4. Шкала отступов (8px grid)
 
-| Токен | Значение | Tailwind | Применение |
-|---|---|---|---|
-| xs | 4px | `p-1 gap-1` | Плотные элементы: теги, иконки в кнопках |
-| sm | 8px | `p-2 gap-2` | Внутренние отступы мелких компонентов |
-| md | 12px | `p-3 gap-3` | Отступы внутри кнопок, инпутов |
-| lg | 16px | `p-4 gap-4` | Внутренние отступы карточек |
-| xl | 24px | `p-6 gap-6` | Отступы карточек, между блоками |
-| 2xl | 32px | `p-8 gap-8` | Между секциями внутри блока |
-| 3xl | 48px | `p-12 gap-12` | Между крупными секциями |
-| 4xl | 64px | `p-16 gap-16` | Секции лендинга |
-| 5xl | 96px | `p-24 gap-24` | Hero-блоки |
+| Токен | Значение | Tailwind      | Применение                               |
+| ----- | -------- | ------------- | ---------------------------------------- |
+| xs    | 4px      | `p-1 gap-1`   | Плотные элементы: теги, иконки в кнопках |
+| sm    | 8px      | `p-2 gap-2`   | Внутренние отступы мелких компонентов    |
+| md    | 12px     | `p-3 gap-3`   | Отступы внутри кнопок, инпутов           |
+| lg    | 16px     | `p-4 gap-4`   | Внутренние отступы карточек              |
+| xl    | 24px     | `p-6 gap-6`   | Отступы карточек, между блоками          |
+| 2xl   | 32px     | `p-8 gap-8`   | Между секциями внутри блока              |
+| 3xl   | 48px     | `p-12 gap-12` | Между крупными секциями                  |
+| 4xl   | 64px     | `p-16 gap-16` | Секции лендинга                          |
+| 5xl   | 96px     | `p-24 gap-24` | Hero-блоки                               |
 
 ### 6.5. Скругления и тени
 
@@ -427,7 +430,7 @@ code, pre, kbd {
 .mesh-gradient {
   background:
     radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
-    radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.10) 0, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.1) 0, transparent 50%),
     radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
 }
 ```
@@ -508,12 +511,12 @@ export function SpotlightCard({
 
 ### 7.7. Современный CSS в арсенале
 
-| Фича | Применение |
-|---|---|
-| `@property` | Типизированные CSS-переменные — анимация градиентов и углов |
-| `backdrop-filter` | Glassmorphism, размытие навбара при скролле |
-| `mix-blend-mode` | Смешивание слоёв текста и графики |
-| CSS Grid `subgrid` | Точное выравнивание вложенных сеток карточек |
+| Фича               | Применение                                                  |
+| ------------------ | ----------------------------------------------------------- |
+| `@property`        | Типизированные CSS-переменные — анимация градиентов и углов |
+| `backdrop-filter`  | Glassmorphism, размытие навбара при скролле                 |
+| `mix-blend-mode`   | Смешивание слоёв текста и графики                           |
+| CSS Grid `subgrid` | Точное выравнивание вложенных сеток карточек                |
 
 ---
 
@@ -523,12 +526,12 @@ export function SpotlightCard({
 
 **Длительности:**
 
-| Тип | Длительность | Примеры |
-|---|---|---|
-| Микро-взаимодействия | 100-200ms | Hover кнопки, чекбокс |
-| Переходы состояний | 200-400ms | Появление дропдауна, смена таба |
-| Появление/исчезновение | 300-500ms | Модалки, страницы, тосты |
-| Декоративные фоны | 3-10s и бесконечно | Mesh, marquee, beam |
+| Тип                    | Длительность       | Примеры                         |
+| ---------------------- | ------------------ | ------------------------------- |
+| Микро-взаимодействия   | 100-200ms          | Hover кнопки, чекбокс           |
+| Переходы состояний     | 200-400ms          | Появление дропдауна, смена таба |
+| Появление/исчезновение | 300-500ms          | Модалки, страницы, тосты        |
+| Декоративные фоны      | 3-10s и бесконечно | Mesh, marquee, beam             |
 
 **Жёсткие правила:**
 
@@ -561,13 +564,7 @@ Scroll-reveal секций:
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-export function Reveal({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-}) {
+export function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
@@ -587,6 +584,8 @@ export function Reveal({
 Staggered reveal карточек (каскад):
 
 ```tsx
+import { motion } from "framer-motion";
+
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.08 } },
@@ -630,10 +629,7 @@ export function WizardSteps({ steps }: { steps: React.ReactNode[] }) {
   const [[index, direction], setStep] = useState<[number, number]>([0, 0]);
 
   function go(delta: number) {
-    setStep(([prev]) => [
-      Math.min(Math.max(prev + delta, 0), steps.length - 1),
-      delta,
-    ]);
+    setStep(([prev]) => [Math.min(Math.max(prev + delta, 0), steps.length - 1), delta]);
   }
 
   return (
@@ -664,16 +660,16 @@ export function WizardSteps({ steps }: { steps: React.ReactNode[] }) {
 
 Именно Magic UI даёт "Dribbble-эффекты". Состав:
 
-| Компонент | Применение |
-|---|---|
-| `shimmer-button`, `shimmer-border` | CTA-кнопки и карточки с бегущим свечением |
-| `animated-beam` | Визуализация потока между узлами (графы, пайплайны) |
-| `marquee` | Бесконечные ленты логотипов, тегов |
-| `number-ticker` | Счётчики метрик при появлении в вьюпорте |
-| `dock` | Панель иконок с эффектом увеличения (macOS Dock) |
-| `meteors`, `particles`, `grid-pattern` | Декоративные фоны hero-секций |
-| `border-beam` | Луч света, бегущий по границе карточки |
-| `animated-grid-pattern`, `dot-pattern` | Фоновые сетки и точки |
+| Компонент                              | Применение                                          |
+| -------------------------------------- | --------------------------------------------------- |
+| `shimmer-button`, `shimmer-border`     | CTA-кнопки и карточки с бегущим свечением           |
+| `animated-beam`                        | Визуализация потока между узлами (графы, пайплайны) |
+| `marquee`                              | Бесконечные ленты логотипов, тегов                  |
+| `number-ticker`                        | Счётчики метрик при появлении в вьюпорте            |
+| `dock`                                 | Панель иконок с эффектом увеличения (macOS Dock)    |
+| `meteors`, `particles`, `grid-pattern` | Декоративные фоны hero-секций                       |
+| `border-beam`                          | Луч света, бегущий по границе карточки              |
+| `animated-grid-pattern`, `dot-pattern` | Фоновые сетки и точки                               |
 
 **Интеграция:**
 
@@ -758,26 +754,26 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
 Типовые сценарии:
 
-| Сценарий | Что показывает |
-|---|---|
-| Обработка данных | Анимация "сканирования" |
-| Трансформация | Разложение на слои или токены |
-| Сборка результата | Компоновка блоков |
-| Пустое состояние | Лампа с шестерёнками |
+| Сценарий          | Что показывает                |
+| ----------------- | ----------------------------- |
+| Обработка данных  | Анимация "сканирования"       |
+| Трансформация     | Разложение на слои или токены |
+| Сборка результата | Компоновка блоков             |
+| Пустое состояние  | Лампа с шестерёнками          |
 
 ### 8.10. Выбор инструмента по задаче
 
-| Задача | Инструмент первого выбора |
-|---|---|
-| Hover, появление, mount/unmount | Motion / Framer Motion |
-| Перестроения сеток и списков | Motion `layout` + auto-animate |
-| Поток между узлами графа | Magic UI `animated-beam` |
-| Счётчики метрик | Magic UI `number-ticker` |
-| Drag с физикой | react-spring |
-| Скролл-теллинг, SVG-пути | GSAP |
-| Плавность скролла страницы | Lenis |
-| Пустые состояния, загрузки | lottie-react |
-| Уведомления | sonner |
+| Задача                          | Инструмент первого выбора      |
+| ------------------------------- | ------------------------------ |
+| Hover, появление, mount/unmount | Motion / Framer Motion         |
+| Перестроения сеток и списков    | Motion `layout` + auto-animate |
+| Поток между узлами графа        | Magic UI `animated-beam`       |
+| Счётчики метрик                 | Magic UI `number-ticker`       |
+| Drag с физикой                  | react-spring                   |
+| Скролл-теллинг, SVG-пути        | GSAP                           |
+| Плавность скролла страницы      | Lenis                          |
+| Пустые состояния, загрузки      | lottie-react                   |
+| Уведомления                     | sonner                         |
 
 ---
 
@@ -798,11 +794,7 @@ import { GearSix, House, MagnifyingGlass } from "@phosphor-icons/react";
 export function NavIcons({ active }: { active: string }) {
   return (
     <nav className="flex items-center gap-4">
-      <House
-        size={24}
-        weight={active === "home" ? "duotone" : "regular"}
-        aria-hidden
-      />
+      <House size={24} weight={active === "home" ? "duotone" : "regular"} aria-hidden />
       <MagnifyingGlass size={24} weight="regular" aria-hidden />
       <GearSix size={24} weight={active === "settings" ? "duotone" : "regular"} aria-hidden />
     </nav>
@@ -830,11 +822,11 @@ export function NavIcons({ active }: { active: string }) {
 
 ### 10.1. Назначение
 
-| Библиотека | Версия | Роль |
-|---|---|---|
-| @xyflow/react | ^12.x | Node-based графы: многоэтапные процессы, пайплайны, схемы данных, mind maps |
-| @xyflow/react-controls | ^12.x | Мини-карта, зум, пан |
-| dagre | ^0.8 | Автоматическая раскладка нод (top-to-bottom / left-to-right) |
+| Библиотека             | Версия | Роль                                                                        |
+| ---------------------- | ------ | --------------------------------------------------------------------------- |
+| @xyflow/react          | ^12.x  | Node-based графы: многоэтапные процессы, пайплайны, схемы данных, mind maps |
+| @xyflow/react-controls | ^12.x  | Мини-карта, зум, пан                                                        |
+| dagre                  | ^0.8   | Автоматическая раскладка нод (top-to-bottom / left-to-right)                |
 
 React Flow превращает линейные индикаторы прогресса (степперы) в полноценный интерактивный граф: узлы — этапы процесса, рёбра — потоки данных между ними. Поддерживает drag & drop, кастомные ноды с превью, анимацию потока по рёбрам.
 
@@ -925,10 +917,10 @@ export function StageNode({ data }: NodeProps) {
 
 ### 11.1. Tremor + recharts
 
-| Библиотека | Версия | Роль |
-|---|---|---|
-| Tremor | ^3.18 | Дашборд-карточки, мини-графики, метрики |
-| recharts | (в составе Tremor) | Полноценные графики |
+| Библиотека | Версия             | Роль                                    |
+| ---------- | ------------------ | --------------------------------------- |
+| Tremor     | ^3.18              | Дашборд-карточки, мини-графики, метрики |
+| recharts   | (в составе Tremor) | Полноценные графики                     |
 
 Tremor закрывает 90% продуктовых задач визуализации: карточки метрик, спарклайны, area/bar/line-графики — всё в едином стиле с Tailwind.
 
@@ -987,10 +979,10 @@ export function CodePreview({ code }: { code: string }) {
 
 ### 13.1. Разделение ответственности
 
-| Библиотека | Версия | Зона ответственности |
-|---|---|---|
-| Zustand | ^5 | Клиентское состояние: UI-стор, настройки, локальный кэш |
-| TanStack React Query | ^5 | Серверное состояние: запросы, кэш, фоновые обновления, инвалидация |
+| Библиотека           | Версия | Зона ответственности                                               |
+| -------------------- | ------ | ------------------------------------------------------------------ |
+| Zustand              | ^5     | Клиентское состояние: UI-стор, настройки, локальный кэш            |
+| TanStack React Query | ^5     | Серверное состояние: запросы, кэш, фоновые обновления, инвалидация |
 
 Правило: всё, что приходит с сервера, живёт в React Query. Всё, что порождается интерфейсом, — в Zustand. Дублирование запрещено.
 
@@ -1031,9 +1023,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (values: FormValues) => Prom
       <div className="flex flex-col gap-2">
         <label htmlFor="password">Пароль</label>
         <input id="password" type="password" {...register("password")} />
-        {errors.password ? (
-          <span role="alert">{errors.password.message}</span>
-        ) : null}
+        {errors.password ? <span role="alert">{errors.password.message}</span> : null}
       </div>
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Входим..." : "Войти"}
@@ -1079,13 +1069,10 @@ export function LoginForm({ onSubmit }: { onSubmit: (values: FormValues) => Prom
 ```tsx
 import dynamic from "next/dynamic";
 
-const SplineScene = dynamic(
-  () => import("@splinetool/react-spline").then((mod) => mod.default),
-  {
-    ssr: false,
-    loading: () => <div className="h-[420px] animate-pulse rounded-xl bg-muted" />,
-  },
-);
+const SplineScene = dynamic(() => import("@splinetool/react-spline").then((mod) => mod.default), {
+  ssr: false,
+  loading: () => <div className="h-[420px] animate-pulse rounded-xl bg-muted" />,
+});
 ```
 
 - **Шрифты:** `next/font` — предзагрузка и нулевой layout shift.
@@ -1097,23 +1084,23 @@ const SplineScene = dynamic(
 
 Единая карта: какой элемент — какой анимацией — каким инструментом.
 
-| Элемент | Анимация | Инструмент |
-|---|---|---|
-| Навбар при скролле | Backdrop-blur + shrink | Framer Motion |
-| Карточки | Staggered reveal при скролле | Framer Motion `useInView` |
-| Графы и схемы | Animated beam по рёбрам | Magic UI + @xyflow |
-| Метрики и счётчики | Number ticker | Magic UI |
-| Шаги мастеров (wizard) | Slide left/right | Framer Motion `AnimatePresence` |
-| Пустые состояния | Lottie-анимация | lottie-react |
-| Загрузка | Skeleton + shimmer | UI-кит + CSS |
-| Кнопки / CTA | Shimmer-border или border-beam | Magic UI |
-| Списки и таблицы | Авто-анимация перестроений | auto-animate |
-| Drag-элементы | Физика пружин | react-spring |
-| Скролл страницы | Инерционный smooth scroll | Lenis |
-| Переходы между страницами | Fade/slide через AnimatePresence | Framer Motion |
-| Тосты | Появление/исчезновение | sonner |
-| Декоративные фоны | Meteors, particles, grid-pattern | Magic UI |
-| Скролл-теллинг на лендингах | ScrollTrigger, параллакс | GSAP |
+| Элемент                     | Анимация                         | Инструмент                      |
+| --------------------------- | -------------------------------- | ------------------------------- |
+| Навбар при скролле          | Backdrop-blur + shrink           | Framer Motion                   |
+| Карточки                    | Staggered reveal при скролле     | Framer Motion `useInView`       |
+| Графы и схемы               | Animated beam по рёбрам          | Magic UI + @xyflow              |
+| Метрики и счётчики          | Number ticker                    | Magic UI                        |
+| Шаги мастеров (wizard)      | Slide left/right                 | Framer Motion `AnimatePresence` |
+| Пустые состояния            | Lottie-анимация                  | lottie-react                    |
+| Загрузка                    | Skeleton + shimmer               | UI-кит + CSS                    |
+| Кнопки / CTA                | Shimmer-border или border-beam   | Magic UI                        |
+| Списки и таблицы            | Авто-анимация перестроений       | auto-animate                    |
+| Drag-элементы               | Физика пружин                    | react-spring                    |
+| Скролл страницы             | Инерционный smooth scroll        | Lenis                           |
+| Переходы между страницами   | Fade/slide через AnimatePresence | Framer Motion                   |
+| Тосты                       | Появление/исчезновение           | sonner                          |
+| Декоративные фоны           | Meteors, particles, grid-pattern | Magic UI                        |
+| Скролл-теллинг на лендингах | ScrollTrigger, параллакс         | GSAP                            |
 
 ---
 
@@ -1121,15 +1108,15 @@ const SplineScene = dynamic(
 
 Максимальный эффект при минимальных усилиях — порядок обязателен:
 
-| Приоритет | Действие | Эффект | Усилие |
-|---|---|---|---|
-| P1 | Фундамент: типографика, 8px grid, 60-30-10, иерархия | Без этого анимации не спасут | Среднее |
-| P2 | Magic UI | Максимум визуальной отдачи | Малое |
-| P3 | Замена шрифта заголовков (Geist/Satoshi) | Одно CSS-правило — другое восприятие | Минимальное |
-| P4 | Noise + glassmorphism | Чистый CSS, около 30 строк, добавляет тактильности | Минимальное |
-| P5 | Phosphor Icons | Duotone даёт глубину | Малое |
-| P6 | Lenis + scroll-reveal | Общая "дороговизна" ощущения | Малое |
-| P7 | Spline, Lottie, three.js | Финальное полирование | Среднее |
+| Приоритет | Действие                                             | Эффект                                             | Усилие      |
+| --------- | ---------------------------------------------------- | -------------------------------------------------- | ----------- |
+| P1        | Фундамент: типографика, 8px grid, 60-30-10, иерархия | Без этого анимации не спасут                       | Среднее     |
+| P2        | Magic UI                                             | Максимум визуальной отдачи                         | Малое       |
+| P3        | Замена шрифта заголовков (Geist/Satoshi)             | Одно CSS-правило — другое восприятие               | Минимальное |
+| P4        | Noise + glassmorphism                                | Чистый CSS, около 30 строк, добавляет тактильности | Минимальное |
+| P5        | Phosphor Icons                                       | Duotone даёт глубину                               | Малое       |
+| P6        | Lenis + scroll-reveal                                | Общая "дороговизна" ощущения                       | Малое       |
+| P7        | Spline, Lottie, three.js                             | Финальное полирование                              | Среднее     |
 
 ---
 
@@ -1160,22 +1147,22 @@ const SplineScene = dynamic(
 
 ### 20.1. Галереи и эталоны
 
-| Ресурс | Что изучать |
-|---|---|
-| godly.website | Лучшая подборка современных анимированных сайтов |
-| awwwards.com | Классика; сайты "Site of the Day", переходы между страницами |
-| land-book.com | Структура и композиция лендингов |
-| mobbin.com | Реальные UI-паттерны топовых SaaS |
-| linear.app, vercel.com, raycast.com | Эталоны тёмного B2B-дизайна; изучайте исходный код и клоны |
+| Ресурс                              | Что изучать                                                  |
+| ----------------------------------- | ------------------------------------------------------------ |
+| godly.website                       | Лучшая подборка современных анимированных сайтов             |
+| awwwards.com                        | Классика; сайты "Site of the Day", переходы между страницами |
+| land-book.com                       | Структура и композиция лендингов                             |
+| mobbin.com                          | Реальные UI-паттерны топовых SaaS                            |
+| linear.app, vercel.com, raycast.com | Эталоны тёмного B2B-дизайна; изучайте исходный код и клоны   |
 
 ### 20.2. YouTube
 
-| Канал | Тематика |
-|---|---|
-| Kevin Powell | Лучший канал по CSS |
-| DesignCourse (Gary Simon) | Связка Figma + вёрстка |
-| Jhey Tompkins | CSS-трюки, креативный фронтенд |
-| Web Dev Simplified, Cosden Solutions | Framer Motion, Next.js |
+| Канал                                | Тематика                       |
+| ------------------------------------ | ------------------------------ |
+| Kevin Powell                         | Лучший канал по CSS            |
+| DesignCourse (Gary Simon)            | Связка Figma + вёрстка         |
+| Jhey Tompkins                        | CSS-трюки, креативный фронтенд |
+| Web Dev Simplified, Cosden Solutions | Framer Motion, Next.js         |
 
 ### 20.3. Интерактив
 
@@ -1212,44 +1199,44 @@ AI — ускоритель, а не замена.
 
 Полный реестр библиотек гайда: категория, пакет, версия, роль.
 
-| Категория | Пакет | Версия | Роль |
-|---|---|---|---|
-| Фундамент | next | ^16 | Фреймворк, App Router |
-| Фундамент | react / react-dom | ^19 | UI-рантайм |
-| Фундамент | typescript | ^5.9 | Типизация |
-| UI | tailwindcss + @tailwindcss/postcss | ^4.3 | Утилитарный CSS |
-| UI (путь A) | shadcn/ui + Radix | latest | Компоненты через CLI, headless-примитивы |
-| UI (путь B) | Untitled UI React | latest | Премиальные компоненты из коробки |
-| UI (путь B) | react-aria | ^1.20 | A11y-примитивы (замена Radix) |
-| UI-утилиты | clsx | ^2.1 | Условные классы |
-| UI-утилиты | tailwind-merge | ^3.6 | Слияние Tailwind-классов |
-| UI-утилиты | class-variance-authority | ^0.7 | Вариации компонентов |
-| Графы | @xyflow/react | ^12 | Node-based графы |
-| Графы | @xyflow/react-controls | ^12 | Мини-карта, зум, пан |
-| Графы | dagre | ^0.8 | Автолэйаут |
-| Данные | tremor | ^3.18 | Дашборд-карточки, мини-графики |
-| Данные | recharts | (в составе Tremor) | Графики |
-| Данные | react-syntax-highlighter | ^15 | Подсветка кода |
-| Анимации | motion / framer-motion | ^13 | База анимаций |
-| Анимации | magic-ui | (компоненты) | Shimmer, beam, marquee, ticker, dock, particles |
-| Анимации | react-spring | ^9 | Физика пружин |
-| Анимации | @formkit/auto-animate | ^0.8 | Авто-анимации списков |
-| Анимации | lenis | ^1 | Smooth scroll |
-| Анимации | sonner | ^2 | Тосты |
-| Анимации | gsap | latest | Скролл-теллинг, SVG-пути |
-| Анимации | lottie-react | ^2 | Lottie-состояния |
-| Иконки | @phosphor-icons/react | ^2 | Основной набор (duotone) |
-| Иконки | iconify-react | ^4 | Резерв, 150 000+ иконок |
-| Иллюстрации | @splinetool/react-spline | latest | 3D hero-сцены |
-| Иллюстрации | three + @react-three/fiber | latest | Сложные 3D-сцены |
-| Иллюстрации | react-svg-pan-zoom | ^3 | Зум/пан SVG |
-| Состояние | zustand | ^5 | Клиентское состояние |
-| Состояние | @tanstack/react-query | ^5 | Серверное состояние |
-| Формы | react-hook-form | ^7 | Формы |
-| Формы | zod + @hookform/resolvers | ^4 | Валидация |
-| Шрифты | Geist / Satoshi | — | Заголовки |
-| Шрифты | Inter | — | Body |
-| Шрифты | JetBrains Mono | — | Код |
+| Категория   | Пакет                              | Версия             | Роль                                            |
+| ----------- | ---------------------------------- | ------------------ | ----------------------------------------------- |
+| Фундамент   | next                               | ^16                | Фреймворк, App Router                           |
+| Фундамент   | react / react-dom                  | ^19                | UI-рантайм                                      |
+| Фундамент   | typescript                         | ^5.9               | Типизация                                       |
+| UI          | tailwindcss + @tailwindcss/postcss | ^4.3               | Утилитарный CSS                                 |
+| UI (путь A) | shadcn/ui + Radix                  | latest             | Компоненты через CLI, headless-примитивы        |
+| UI (путь B) | Untitled UI React                  | latest             | Премиальные компоненты из коробки               |
+| UI (путь B) | react-aria                         | ^1.20              | A11y-примитивы (замена Radix)                   |
+| UI-утилиты  | clsx                               | ^2.1               | Условные классы                                 |
+| UI-утилиты  | tailwind-merge                     | ^3.6               | Слияние Tailwind-классов                        |
+| UI-утилиты  | class-variance-authority           | ^0.7               | Вариации компонентов                            |
+| Графы       | @xyflow/react                      | ^12                | Node-based графы                                |
+| Графы       | @xyflow/react-controls             | ^12                | Мини-карта, зум, пан                            |
+| Графы       | dagre                              | ^0.8               | Автолэйаут                                      |
+| Данные      | tremor                             | ^3.18              | Дашборд-карточки, мини-графики                  |
+| Данные      | recharts                           | (в составе Tremor) | Графики                                         |
+| Данные      | react-syntax-highlighter           | ^15                | Подсветка кода                                  |
+| Анимации    | motion / framer-motion             | ^13                | База анимаций                                   |
+| Анимации    | magic-ui                           | (компоненты)       | Shimmer, beam, marquee, ticker, dock, particles |
+| Анимации    | react-spring                       | ^9                 | Физика пружин                                   |
+| Анимации    | @formkit/auto-animate              | ^0.8               | Авто-анимации списков                           |
+| Анимации    | lenis                              | ^1                 | Smooth scroll                                   |
+| Анимации    | sonner                             | ^2                 | Тосты                                           |
+| Анимации    | gsap                               | latest             | Скролл-теллинг, SVG-пути                        |
+| Анимации    | lottie-react                       | ^2                 | Lottie-состояния                                |
+| Иконки      | @phosphor-icons/react              | ^2                 | Основной набор (duotone)                        |
+| Иконки      | iconify-react                      | ^4                 | Резерв, 150 000+ иконок                         |
+| Иллюстрации | @splinetool/react-spline           | latest             | 3D hero-сцены                                   |
+| Иллюстрации | three + @react-three/fiber         | latest             | Сложные 3D-сцены                                |
+| Иллюстрации | react-svg-pan-zoom                 | ^3                 | Зум/пан SVG                                     |
+| Состояние   | zustand                            | ^5                 | Клиентское состояние                            |
+| Состояние   | @tanstack/react-query              | ^5                 | Серверное состояние                             |
+| Формы       | react-hook-form                    | ^7                 | Формы                                           |
+| Формы       | zod + @hookform/resolvers          | ^4                 | Валидация                                       |
+| Шрифты      | Geist / Satoshi                    | —                  | Заголовки                                       |
+| Шрифты      | Inter                              | —                  | Body                                            |
+| Шрифты      | JetBrains Mono                     | —                  | Код                                             |
 
 CSS-эффекты (noise, glass, mesh, animated borders, spotlight, grain) зависимостей не требуют — см. раздел 7.
 
@@ -1291,9 +1278,9 @@ CSS-эффекты (noise, glass, mesh, animated borders, spotlight, grain) за
 
 Исходные материалы, консолидированные в этом гайде (отвязанные от задач универсальные версии):
 
-| Документ | Путь |
-|---|---|
-| Фундамент дизайна | `docs/sources/01-design-fundamentals.md` |
-| Dribbble-уровень: слои визуального качества | `docs/sources/02-dribbble-level-layers.md` |
-| Полная картина на Untitled UI + React Flow | `docs/sources/03-untitled-ui-react-flow.md` |
+| Документ                                      | Путь                                             |
+| --------------------------------------------- | ------------------------------------------------ |
+| Фундамент дизайна                             | `docs/sources/01-design-fundamentals.md`         |
+| Dribbble-уровень: слои визуального качества   | `docs/sources/02-dribbble-level-layers.md`       |
+| Полная картина на Untitled UI + React Flow    | `docs/sources/03-untitled-ui-react-flow.md`      |
 | Гайд по дизайну уровня Dribbble (полный стек) | `docs/sources/04-design-guide-dribbble-level.md` |

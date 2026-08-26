@@ -1,11 +1,13 @@
 # Worklog
 
 ---
+
 Task ID: 1
 Agent: main (Z.ai Code)
 Task: Отвязать 4 исходных документа пользователя от задач (проект unweave, пайплайны extract/analyze/spec/generate, компоненты StatsCard/StepProgress/CodePreview) и привести их к требованиям Markdown-документации.
 
 Work Log:
+
 - Прочитаны все 4 загруженных документа из /home/z/my-project/upload/
 - Создана директория docs/sources/
 - Написан docs/sources/01-design-fundamentals.md (из "фундамент дизайна.md"): удалены эмодзи (раздел "Что изучить", чек-лист), текст обобщен
@@ -14,15 +16,18 @@ Work Log:
 - Написан docs/sources/04-design-guide-dribbble-level.md (из "Design guide Dribbble levee.md"): обобщены пайплайн-сценарии Lottie и карта анимаций (StatsCard -> метрики, пайплайн -> графы), приоритеты переведены с [P1]-тегов на **P1** (label refs запрещены правилами)
 
 Stage Summary:
+
 - 4 универсальных документа в docs/sources/, не привязанных к задачам
 - Все документы соответствуют требованиям: без эмодзи, без unicode-псевдографики, все код-блоки с языком
 
 ---
+
 Task ID: 2
 Agent: main (Z.ai Code)
 Task: Создать единый детализированный гайд по дизайну с учетом всех библиотек из исходных документов.
 
 Work Log:
+
 - Создан docs/design-guide.md (~1100 строк) на русском языке
 - Структура: 22 раздела + 3 приложения (полная карта стека таблицей, требования к Markdown-документации, связанные документы)
 - Покрыты ВСЕ библиотеки из источников: Tailwind CSS 4, shadcn/ui + Radix (путь A), Untitled UI React + React Aria (путь B), clsx + tailwind-merge + cva, @xyflow/react ^12 + controls + dagre, Tremor ^3.18 + recharts, react-syntax-highlighter ^15, Motion/Framer Motion ^13, Magic UI, react-spring ^9, auto-animate ^0.8, Lenis ^1, sonner ^2, GSAP, lottie-react ^2, Phosphor Icons ^2, Iconify ^4, Spline, three.js + R3F, React SVG Pan Zoom ^3, Zustand ^5, TanStack Query ^5, RHF + Zod, шрифты Geist/Satoshi/Inter/JetBrains Mono
@@ -31,15 +36,18 @@ Work Log:
 - Документ соответствует всем требованиям Markdown-политики
 
 Stage Summary:
+
 - Главный артефакт: docs/design-guide.md - единый детализированный гайд
 - Каталог анимаций, приоритеты P1-P7, чек-лист качества, насмотренность, метод клонирования, AI-помощник - все консолидировано
 
 ---
+
 Task ID: 3
 Agent: main (Z.ai Code)
 Task: Настроить ESLint-правила документации и проверить соответствие документов требованиям.
 
 Work Log:
+
 - Установлен @eslint/markdown@8.0.3 (devDependency)
 - Загруженные правила скопированы в eslint-rules/unicode-policy.mjs и eslint-rules/code-block-language.mjs (переименование .js -> .mjs из-за отсутствия "type":"module" в package.json; логика правил не изменена, только именованный экспорт)
 - Экспериментально установлено: @eslint/markdown v8 использует языковую модель (language markdown/gfm, AST root node = "root", не "Program"), поэтому кастомные правила обернуты функцией withMarkdownRoot() в eslint.config.mjs (добавлен visitor root к Program), сами файлы правил остались логически идентичны загруженным
@@ -50,15 +58,18 @@ Work Log:
 - bun run lint: 0 ошибок, 0 предупреждений
 
 Stage Summary:
+
 - Документация проверяется автоматически через bun run lint
 - Все 5 документов соответствуют требованиям: без эмодзи, без псевдографики, код-блоки с языками, + 19 правил качества Markdown
 
 ---
+
 Task ID: 4
 Agent: full-stack-developer
 Task: Build documentation viewer page on / route
 
 Work Log:
+
 - Прочитан worklog (задачи 1-3), изучена структура docs/, eslint-правила и текущее состояние проекта (dev-сервер уже запущен на порту 3000, повторный запуск init-скрипта сознательно пропущен, чтобы не поднять второй инстанс dev-сервера)
 - Установлены пакеты: remark-gfm@4.0.1, rehype-slug@6.0.0, github-slugger@2.0.0 (+ dev: @types/react-syntax-highlighter@15.5.13)
 - Создан src/lib/docs-types.ts (типы, безопасные для клиента) и src/lib/docs.ts: реестр 5 документов (slug-белый список: design-guide, fundamentals, layers, untitled-ui, full-guide), чтение файлов через fs.readFileSync(path.join(process.cwd(), ...)), серверное извлечение заголовков h2/h3 для TOC (github-slugger с той же дедупликацией id, что у rehype-slug, пропуск fenced-блоков)
@@ -71,6 +82,7 @@ Work Log:
 - bun run lint: 0 ошибок, 0 предупреждений (docs/** не тронуты); dev.log без ошибок компиляции; GET / 200
 
 Stage Summary:
+
 - Созданы файлы: src/lib/docs-types.ts, src/lib/docs.ts, src/app/api/docs/route.ts, src/components/theme-provider.tsx, src/components/docs/{docs-viewer,site-header,doc-list,table-of-contents,markdown-content,code-block,doc-icon}.tsx
 - Изменены: src/app/page.tsx (полностью переписан), src/app/layout.tsx (metadata, lang=ru, ThemeProvider), src/app/globals.css (+200 строк кастомного CSS), src/lib/utils.ts (+pluralRu)
 - Установлены пакеты: remark-gfm, rehype-slug, github-slugger, @types/react-syntax-highlighter (dev)
@@ -78,11 +90,13 @@ Stage Summary:
 - Запрещённые файлы (docs/, eslint*, prisma/, upload/) не изменялись; никаких эмодзи и псевдографики в UI
 
 ---
+
 Task ID: 5
 Agent: main (Z.ai Code)
 Task: Финальная верификация всего проекта: lint, dev.log, end-to-end проверка в браузере через Agent Browser + VLM-проверка скриншотов.
 
 Work Log:
+
 - bun run lint: 0 ошибок, 0 предупреждений (включая docs/** с 24 правилами)
 - dev.log проверен: компиляция без ошибок, GET / 200, /api/docs 200/400/404 по сценариям
 - Agent Browser (desktop 1280x800): страница открывается, title корректный, переключатель 5 документов работает (проверены design-guide, fundamentals, untitled-ui), 23 код-блока рендерятся, header код-блока показывает язык + кнопка копирования ("Копировать" -> "Скопировано" после клика)
@@ -95,34 +109,41 @@ Work Log:
 - Замечание: команды agent-browser fill/type не работают с кириллицей (баг CLI), фильтр TOC проверен через нативный input event - функциональность приложения подтверждена
 
 Stage Summary:
+
 - Проект полностью верифицирован: линт чист, страница рендерится и интерактивна, все пользовательские сценарии работают
 - Деливераблы: docs/design-guide.md (единый гайд), docs/sources/01-04 (отвязанные документы), ESLint-контур документации, вьювер на / с API скачивания
 
 ---
+
 Task ID: 6
 Agent: main (Z.ai Code)
 Task: Ответ на вопрос пользователя о разделении "Untitled UI + React Flow" и "shadcn/ui + Radix" в едином гайде; проверка, ошибка это или намеренное решение.
 
 Work Log:
+
 - Проанализированы design-guide.md (разделы 4.2, 10.1) и исходники: docs/sources/03-untitled-ui-react-flow.md и docs/sources/04-design-guide-dribbble-level.md
 - Подтверждено по исходникам пользователя: в 04-документе UI-киты указаны как альтернативы ("Untitled UI React или shadcn/ui + Radix"), React Aria названа заменой Radix при выборе Untitled UI, а @xyflow/react вынесена в отдельную строку "Визуализация данных" — то есть разделение соответствует логике самих исходников
 - В design-guide.md добавлено два пояснения: в 4.2 (почему в пути B пара Untitled UI + React Aria, а не React Flow; React Flow ортогональна UI-слою) и в 10.1 (React Flow совместима с обоими путями)
 - bun run lint: 0 ошибок; dev.log: GET / 200 без ошибок; браузерная проверка: оба новых абзаца рендерятся
 
 Stage Summary:
+
 - Ответ: разделение намеренное и технически корректное, не ошибка. "Untitled UI + React Flow" в заголовке 03-документа было названием конкретного набора стека ("без shadcn"), а не зависимостью. Зеркальная пара пути B — Untitled UI + React Aria (React Aria заменяет Radix). React Flow ортогональна UI-киту и работает с обоими путями
 - Гайд дополнен явными пояснениями в разделах 4.2 и 10.1, чтобы вопрос не возникал у будущих читателей
 
 ---
+
 Task ID: 7
 Agent: main (Z.ai Code)
 Task: Предложить англоязычное название проекта (консультация, без изменения файлов).
 
 Work Log:
+
 - Проанализирована суть проекта для нейминга: единый консолидированный гайд-стандарт по дизайну уровня Dribbble + вьювер документации (карта стека, 87 разделов, TOC, поиск)
 - Подготовлены кандидаты с обоснованием: Design Atlas (основная рекомендация), Design Codex, Design Playbook, Layercraft, Pixelgrade, Polish, Hi-Fi, Stackguide, Interface Bible
 - Файлы проекта не изменялись: задача консультационная
 
 Stage Summary:
+
 - Основная рекомендация: Design Atlas (гайд буквально является картой территории дизайна: приложение "Полная карта стека", навигация, 87 заголовков)
 - Применение названия к сайту/репозиторию отложено до выбора пользователя

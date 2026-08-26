@@ -59,15 +59,15 @@ Phosphor дает визуальную глубину за счет duotone-ва
 
 Вот чего реально не хватает для Dribbble-визуала:
 
-| Эффект | Инструмент | Где применяется |
-|---|---|---|
-| Noise-текстура | CSS (SVG-фильтр) | Фон карточек, hero-секция |
-| Glassmorphism | Tailwind `backdrop-blur` + `bg-white/10` | Navbar, модалки, мастера по шагам |
-| Mesh-градиенты | CSS `radial-gradient` слои | Фон дашборда, лендинг |
-| Grain-оверлей | SVG-фильтр `feTurbulence` | На всю страницу тонким слоем |
-| Animated gradient borders | Magic UI `shimmer-border` | Активные карточки |
-| Smooth scroll | **Lenis** | Общая плавность скролла |
-| Reveal-анимации при скролле | **Framer Motion** + `useInView` | Все секции при появлении |
+| Эффект                      | Инструмент                               | Где применяется                   |
+| --------------------------- | ---------------------------------------- | --------------------------------- |
+| Noise-текстура              | CSS (SVG-фильтр)                         | Фон карточек, hero-секция         |
+| Glassmorphism               | Tailwind `backdrop-blur` + `bg-white/10` | Navbar, модалки, мастера по шагам |
+| Mesh-градиенты              | CSS `radial-gradient` слои               | Фон дашборда, лендинг             |
+| Grain-оверлей               | SVG-фильтр `feTurbulence`                | На всю страницу тонким слоем      |
+| Animated gradient borders   | Magic UI `shimmer-border`                | Активные карточки                 |
+| Smooth scroll               | **Lenis**                                | Общая плавность скролла           |
+| Reveal-анимации при скролле | **Framer Motion** + `useInView`          | Все секции при появлении          |
 
 ---
 

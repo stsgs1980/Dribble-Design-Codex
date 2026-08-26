@@ -2,12 +2,7 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import {
-  motion,
-  useMotionValueEvent,
-  useScroll,
-  useSpring,
-} from "framer-motion";
+import { motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { Download, Layers, ListTree, Moon, PanelLeft, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -90,24 +85,16 @@ export function SiteHeader({
               <PanelLeft className="size-[18px]" aria-hidden="true" />
             </Button>
           </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="w-[300px] gap-0 border-border/60 p-0"
-          >
+          <SheetContent side="left" className="w-[300px] gap-0 border-border/60 p-0">
             <SheetHeader className="border-b border-border/60 px-5 py-4">
               <SheetTitle className="text-base">Документы</SheetTitle>
               <SheetDescription className="text-xs">
-                {docs.length}{" "}
-                {pluralRu(docs.length, "документ", "документа", "документов")}{" "}
+                {docs.length} {pluralRu(docs.length, "документ", "документа", "документов")}{" "}
                 дизайн-системы
               </SheetDescription>
             </SheetHeader>
             <div className="flex-1 overflow-y-auto p-4">
-              <DocList
-                docs={docs}
-                activeSlug={activeDoc.slug}
-                onSelect={handleSelect}
-              />
+              <DocList docs={docs} activeSlug={activeDoc.slug} onSelect={handleSelect} />
             </div>
           </SheetContent>
         </Sheet>
@@ -121,9 +108,7 @@ export function SiteHeader({
             <span className="truncate text-[13px] font-semibold tracking-tight">
               Дизайн-документация
             </span>
-            <span className="truncate text-[11px] text-muted-foreground">
-              {activeDoc.short}
-            </span>
+            <span className="truncate text-[11px] text-muted-foreground">{activeDoc.short}</span>
           </span>
         </div>
 
@@ -156,15 +141,10 @@ export function SiteHeader({
                 <ListTree className="size-[18px]" aria-hidden="true" />
               </Button>
             </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-[300px] gap-0 border-border/60 p-0"
-            >
+            <SheetContent side="right" className="w-[300px] gap-0 border-border/60 p-0">
               <SheetHeader className="border-b border-border/60 px-5 py-4">
                 <SheetTitle className="text-base">Содержание</SheetTitle>
-                <SheetDescription className="truncate text-xs">
-                  {activeDoc.title}
-                </SheetDescription>
+                <SheetDescription className="truncate text-xs">{activeDoc.title}</SheetDescription>
               </SheetHeader>
               <div className="flex min-h-0 flex-1 flex-col p-4">
                 <TableOfContents headings={activeDoc.toc} />

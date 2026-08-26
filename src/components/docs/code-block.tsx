@@ -20,16 +20,9 @@ const LANGUAGE_LABELS: Record<string, string> = {
   html: "HTML",
 };
 
-const CODE_FONT =
-  "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
+const CODE_FONT = "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
 
-export function CodeBlock({
-  code,
-  language,
-}: {
-  code: string;
-  language: string;
-}) {
+export function CodeBlock({ code, language }: { code: string; language: string }) {
   const [copied, setCopied] = React.useState(false);
   const timerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -82,10 +75,7 @@ export function CodeBlock({
     <div className="my-6 overflow-hidden rounded-xl border border-black/10 shadow-sm dark:border-white/10">
       <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#21252b] py-1.5 pl-4 pr-2">
         <span className="flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-400">
-          <span
-            className="size-1.5 rounded-full bg-brand/80"
-            aria-hidden="true"
-          />
+          <span className="size-1.5 rounded-full bg-brand/80" aria-hidden="true" />
           {label}
         </span>
         <button

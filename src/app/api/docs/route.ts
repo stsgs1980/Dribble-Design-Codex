@@ -11,10 +11,7 @@ export function GET(request: NextRequest) {
   const file = request.nextUrl.searchParams.get("file");
 
   if (!file) {
-    return NextResponse.json(
-      { error: "Обязательный параметр file не указан" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Обязательный параметр file не указан" }, { status: 400 });
   }
 
   const doc = getDocBySlug(file);

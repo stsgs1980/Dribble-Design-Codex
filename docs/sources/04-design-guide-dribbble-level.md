@@ -14,11 +14,11 @@
 - Контролируйте `letter-spacing` и иерархию заголовков.
 - Шрифтовая система:
 
-| Роль | Шрифт | Почему |
-|---|---|---|
+| Роль      | Шрифт                                     | Почему                                                         |
+| --------- | ----------------------------------------- | -------------------------------------------------------------- |
 | Заголовки | **Geist** / **Satoshi** / Cabinet Grotesk | Выразительный, геометричный; Inter "переиспользован до смерти" |
-| Body | Inter | Нейтральный, отлично читается |
-| Код | JetBrains Mono | Стандарт |
+| Body      | Inter                                     | Нейтральный, отлично читается                                  |
+| Код       | JetBrains Mono                            | Стандарт                                                       |
 
 Примечание: замена заголовочного шрифта — минимальное изменение с максимальным эффектом.
 
@@ -44,50 +44,50 @@
 
 ### UI-фундамент
 
-| Библиотека | Роль |
-|---|---|
-| Tailwind CSS 4 + @tailwindcss/postcss | Утилитарный CSS, системность отступов и цветов |
-| Untitled UI React *или* shadcn/ui + Radix | Компоненты (кнопки, модалки, таблицы). Untitled UI — более "дизайнерский" вид из коробки; shadcn — CLI и полный контроль кода |
-| clsx + tailwind-merge + cva | Утилита `cn()` и вариации компонентов |
-| React Aria | Accessibility-примитивы (замена Radix при выборе Untitled UI) |
+| Библиотека                                | Роль                                                                                                                          |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Tailwind CSS 4 + @tailwindcss/postcss     | Утилитарный CSS, системность отступов и цветов                                                                                |
+| Untitled UI React _или_ shadcn/ui + Radix | Компоненты (кнопки, модалки, таблицы). Untitled UI — более "дизайнерский" вид из коробки; shadcn — CLI и полный контроль кода |
+| clsx + tailwind-merge + cva               | Утилита `cn()` и вариации компонентов                                                                                         |
+| React Aria                                | Accessibility-примитивы (замена Radix при выборе Untitled UI)                                                                 |
 
 ### Визуализация данных
 
-| Библиотека | Роль |
-|---|---|
+| Библиотека                | Роль                                                                                                       |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | @xyflow/react ^12 + dagre | Node-based графы и схемы: узлы-этапы процессов, рёбра с анимацией потока данных, drag and drop, мини-карта |
-| Tremor (+ recharts) | Дашборд-карточки, мини-графики |
-| react-syntax-highlighter | Превью кода |
+| Tremor (+ recharts)       | Дашборд-карточки, мини-графики                                                                             |
+| react-syntax-highlighter  | Превью кода                                                                                                |
 
 ### Анимации
 
-| Библиотека | Что дает |
-|---|---|
-| Motion / Framer Motion | База: mount/unmount, layout, gesture, `useInView`, `AnimatePresence` |
+| Библиотека                   | Что дает                                                                            |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| Motion / Framer Motion       | База: mount/unmount, layout, gesture, `useInView`, `AnimatePresence`                |
 | Magic UI (ручная интеграция) | Shimmer-border, animated beam, marquee, number ticker, dock, particles, border-beam |
-| react-spring | Физические пружины — drag-интеракции, elastic-эффекты |
-| auto-animate | Авто-анимации списков и DOM-перестроек |
-| Lenis | Плавный инерционный скролл — "дорогой" feel |
-| sonner | Тосты |
-| lottie-react | Lottie для пустых состояний и загрузок |
+| react-spring                 | Физические пружины — drag-интеракции, elastic-эффекты                               |
+| auto-animate                 | Авто-анимации списков и DOM-перестроек                                              |
+| Lenis                        | Плавный инерционный скролл — "дорогой" feel                                         |
+| sonner                       | Тосты                                                                               |
+| lottie-react                 | Lottie для пустых состояний и загрузок                                              |
 
 ### Иконки
 
-| Библиотека | Почему не Lucide |
-|---|---|
+| Библиотека                | Почему не Lucide                                                                                                                  |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | Phosphor Icons (основной) | 6 стилей: thin, light, regular, bold, fill, duotone. Двухцветные дают глубину: duotone — активные состояния, regular — неактивные |
-| Iconify React (резерв) | Более 150 000 иконок через единый `<Icon>` компонент |
+| Iconify React (резерв)    | Более 150 000 иконок через единый `<Icon>` компонент                                                                              |
 
 ### Эффекты (чистый CSS, без зависимостей)
 
-| Эффект | Реализация | Применение |
-|---|---|---|
-| Noise-текстура | SVG-фильтр, opacity ~0.03 | Фон всей страницы — "аналоговая" текстура как у Linear/Vercel/Raycast |
-| Glassmorphism | `backdrop-filter: blur(12px) saturate(180%)` + полупрозрачный фон | Навбар, модалки, floating-панели, тултипы |
-| Mesh-градиенты | Слои `radial-gradient` | Hero, фон дашборда, пустые состояния |
-| Animated gradient borders | `@property` + conic-gradient или shimmer-border | Карточки, активные элементы |
-| Spotlight-hover | CSS + JS свечение за курсором | Карточки (как у Stripe, Linear) |
-| Grain overlay | `feTurbulence`, крупное зерно | Точечно на hero/CTA |
+| Эффект                    | Реализация                                                        | Применение                                                            |
+| ------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Noise-текстура            | SVG-фильтр, opacity ~0.03                                         | Фон всей страницы — "аналоговая" текстура как у Linear/Vercel/Raycast |
+| Glassmorphism             | `backdrop-filter: blur(12px) saturate(180%)` + полупрозрачный фон | Навбар, модалки, floating-панели, тултипы                             |
+| Mesh-градиенты            | Слои `radial-gradient`                                            | Hero, фон дашборда, пустые состояния                                  |
+| Animated gradient borders | `@property` + conic-gradient или shimmer-border                   | Карточки, активные элементы                                           |
+| Spotlight-hover           | CSS + JS свечение за курсором                                     | Карточки (как у Stripe, Linear)                                       |
+| Grain overlay             | `feTurbulence`, крупное зерно                                     | Точечно на hero/CTA                                                   |
 
 ```css
 .glass {
@@ -101,7 +101,7 @@
 .mesh-gradient {
   background:
     radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
-    radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.10) 0, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(139, 92, 246, 0.1) 0, transparent 50%),
     radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
 }
 ```
@@ -110,7 +110,7 @@ Noise-текстура через SVG-фильтр:
 
 ```css
 .noise::after {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -121,12 +121,12 @@ Noise-текстура через SVG-фильтр:
 
 ### Иллюстрации и графика
 
-| Инструмент | Применение |
-|---|---|
-| Spline (@splinetool/react-spline) | Интерактивная 3D-сцена на hero |
-| three.js + @react-three/fiber | Если возможностей Spline недостаточно |
-| lottie-react | Пустые состояния, загрузка, успешное завершение процессов |
-| React SVG Pan Zoom | Зум и пан SVG-превью |
+| Инструмент                        | Применение                                                |
+| --------------------------------- | --------------------------------------------------------- |
+| Spline (@splinetool/react-spline) | Интерактивная 3D-сцена на hero                            |
+| three.js + @react-three/fiber     | Если возможностей Spline недостаточно                     |
+| lottie-react                      | Пустые состояния, загрузка, успешное завершение процессов |
+| React SVG Pan Zoom                | Зум и пан SVG-превью                                      |
 
 Типовые Lottie-сценарии:
 
@@ -143,16 +143,16 @@ Noise-текстура через SVG-фильтр:
 
 ### Карта анимаций интерфейса
 
-| Элемент | Анимация | Инструмент |
-|---|---|---|
-| Навбар при скролле | Backdrop-blur + shrink | Framer Motion |
-| Карточки | Staggered reveal при скролле | Framer Motion `useInView` |
-| Графы и схемы | Animated beam по рёбрам | Magic UI + @xyflow |
-| Метрики и счетчики | Number ticker | Magic UI |
-| Шаги мастеров (wizard) | Slide left/right | AnimatePresence |
-| Пустые состояния | Lottie | lottie-react |
-| Загрузка | Skeleton + shimmer | Untitled UI + CSS |
-| CTA | Shimmer-border / border-beam | Magic UI |
+| Элемент                | Анимация                     | Инструмент                |
+| ---------------------- | ---------------------------- | ------------------------- |
+| Навбар при скролле     | Backdrop-blur + shrink       | Framer Motion             |
+| Карточки               | Staggered reveal при скролле | Framer Motion `useInView` |
+| Графы и схемы          | Animated beam по рёбрам      | Magic UI + @xyflow        |
+| Метрики и счетчики     | Number ticker                | Magic UI                  |
+| Шаги мастеров (wizard) | Slide left/right             | AnimatePresence           |
+| Пустые состояния       | Lottie                       | lottie-react              |
+| Загрузка               | Skeleton + shimmer           | Untitled UI + CSS         |
+| CTA                    | Shimmer-border / border-beam | Magic UI                  |
 
 ---
 
