@@ -81,6 +81,7 @@ export function SiteHeader({
               size="icon"
               className="size-11 lg:hidden"
               aria-label="Открыть список документов"
+              suppressHydrationWarning
             >
               <PanelLeft className="size-[18px]" aria-hidden="true" />
             </Button>
@@ -137,6 +138,7 @@ export function SiteHeader({
                 size="icon"
                 className="size-11 lg:hidden"
                 aria-label="Открыть содержание"
+                suppressHydrationWarning
               >
                 <ListTree className="size-[18px]" aria-hidden="true" />
               </Button>
