@@ -79,6 +79,17 @@ export default [
       "jsdoc/require-returns": "warn",
     },
   },
+  {
+    // Must stay after the **/*.{ts,tsx,js,jsx} block above: flat config applies
+    // later entries last, so virtual `docs/*.md/N.tsx` snippet files would
+    // otherwise inherit jsdoc rules and report warnings about code samples.
+    files: ["**/*.md/**"],
+    rules: {
+      "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
+      "jsdoc/require-returns": "off",
+    },
+  },
   ...nextCoreWebVitals,
   ...nextTypescript,
   {

@@ -59,7 +59,11 @@ export const docRegistry: readonly DocMeta[] = [
   },
 ];
 
-const HEADING_RE = /^(#{1,6})[ \t]+(.*?)[ \t]*#*[ \t]*$/;
+// Per CommonMark a closing sequence of #s is only a closing sequence when it
+// is preceded by a space/tab (or the whole line is #s), so "## C#" keeps the
+// trailing hash while "## Title ###" does not.
+const HEADING_RE = /^(#{1,6})[ \t]+(.*?)[ \t]*$/;
+const TRAILING_HASHES_RE = /(^|[ \t])#+$/;
 const FENCE_RE = /^[ \t]*(?:```|~~~)/;
 
 function stripInlineMarkdown(raw: string): string {
@@ -89,7 +93,8 @@ export function extractToc(markdown: string): TocHeading[] {
     const match = HEADING_RE.exec(line);
     if (!match) continue;
 
-    const text = stripInlineMarkdown(match[2]);
+    const raw = match[2].replace(TRAILING_HASHES_RE, "$1").trim();
+    const text = stripInlineMarkdown(raw);
     if (!text) continue;
 
     const depth = match[1].length;
@@ -113,7 +118,6 @@ function readDoc(meta: DocMeta): DocPayload {
     toc,
     lines: content.split(/\r?\n/).length,
     sections: toc.filter((heading) => heading.depth === 2).length,
-    words: content.split(/\s+/).filter(Boolean).length,
   };
 }
 
@@ -128,9 +132,21 @@ export function getDocBySlug(slug: string): DocPayload | null {
   }
 }
 
-/** Loads the whole registry (used by the / page). */
+/**
+ * Loads every registered document. Unreadable entries are skipped instead of
+ * throwing, so a missing or renamed file degrades to a shorter list rather
+ * than a 500 on the home page. The viewer already handles an empty list.
+ */
 export function getAllDocs(): DocPayload[] {
-  return docRegistry.map((meta) => readDoc(meta));
-}
+  const payloads: DocPayload[] = [];
 
-export const docsCount = docRegistry.length;
+  for (const meta of docRegistry) {
+    try {
+      payloads.push(readDoc(meta));
+    } catch {
+      console.error(`[docs] failed to read "${meta.file}" (slug "${meta.slug}")`);
+    }
+  }
+
+  return payloads;
+}

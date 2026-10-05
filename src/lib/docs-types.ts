@@ -33,5 +33,4 @@ export interface DocPayload extends DocMeta {
   toc: TocHeading[];
   lines: number;
   sections: number;
-  words: number;
 }

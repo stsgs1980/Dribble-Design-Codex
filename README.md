@@ -25,13 +25,11 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
 ## Features
 
 - **Dribbble-level Design System** — typography, spacing, color, hierarchy (Part 1 of the guide)
-- **Complete Tech Stack** — Tailwind CSS 4, Radix UI / Untitled UI, Framer Motion, Magic UI, React Spring
-- **Data Visualization** — @xyflow/react (graphs), Tremor + Recharts (dashboards), react-syntax-highlighter
-- **Advanced Animations** — staggered reveal, scroll-triggered, layout animations, number tickers, Lottie
-- **Zero-dependency CSS Effects** — noise texture, glassmorphism, mesh gradients, animated borders, spotlight-hover
-- **Icons** — Phosphor Icons (6 weights, duotone) + Iconify React (fallback)
-- **Forms & State** — React Hook Form + Zod, Zustand, TanStack Query
-- **Documentation** — built-in docs viewer with MDX, syntax highlighting, table of contents
+- **Styling** — Tailwind CSS 4 (CSS-first `@theme`), clsx + tailwind-merge + cva
+- **UI Primitives** — Radix UI (shadcn/ui), 45+ components in `src/components/ui/`
+- **Animations** — Framer Motion 12 (scroll reveal, hero transitions, reading progress)
+- **Documentation** — built-in docs viewer with markdown, syntax highlighting, table of contents
+- **Theming** — next-themes with class strategy and no-flash init
 - **TypeScript Strict Mode** — full typing, path aliases (@/*)
 - **Code Quality** — ESLint 9 (flat config), Prettier, Husky, lint-staged, commitlint, custom rules (unicode-policy, code-block-language)
 
@@ -41,16 +39,14 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
 - **Framework**: Next.js 16 (App Router, Turbopack, standalone output)
 - **Language**: TypeScript 5 (strict, ES2022)
 - **Styling**: Tailwind CSS 4 + @tailwindcss/postcss, clsx + tailwind-merge + cva
-- **UI Primitives**: Radix UI (40+ components) / Untitled UI React
-- **Animations**: Framer Motion 12, Magic UI, react-spring, auto-animate, Lenis
-- **Data Viz**: @xyflow/react ^12 + dagre, Tremor, Recharts
-- **Forms/Validation**: React Hook Form 7 + Zod 4
-- **State**: Zustand 5 (client), TanStack Query 5 (server)
-- **Icons**: Phosphor Icons (duotone) + Iconify React
-- **Database**: Prisma 6 + SQLite
+- **UI Primitives**: Radix UI / shadcn/ui (45+ components in `src/components/ui/`)
+- **Animations**: Framer Motion 12
+- **Content**: react-markdown + remark-gfm + rehype-slug, react-syntax-highlighter (Prism)
+- **Icons**: lucide-react
+- **Theming**: next-themes
 - **Linting**: ESLint 9 (flat), @eslint/markdown, eslint-plugin-jsdoc
 - **Custom Rules**: unicode-policy (no emoji/unicode graphics), code-block-language (require language in fenced blocks)
-- **Formatting**: Prettier 3 (double quotes, trailing commas, 100 width)
+- **Formatting**: Prettier 3 (double quotes, trailing commas, 100 width, LF)
 - **Git Hooks**: Husky 9 + lint-staged + @commitlint/config-conventional
 
 ## Getting Started
@@ -76,16 +72,15 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
    cp .env.example .env
    # Edit .env if needed
    ```
-4. Initialize database:
-   ```bash
-   npm run db:push
-   npm run db:generate
-   ```
-5. Start development server:
+4. Start development server:
    ```bash
    npm run dev
    ```
    Open http://localhost:3000
+
+The app reads its documents from `docs/` on every request, so there is no
+build step and no database to initialize — `.env` is only required if you
+intend to use the unused Prisma scaffold in `prisma/` and `src/lib/db.ts`.
 
 ## Scripts
 
@@ -93,10 +88,12 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
 - `npm run build` — production build (standalone output in .next/standalone/)
 - `npm run start` — start production server
 - `npm run lint` — run ESLint (0 errors policy)
-- `npm run format` — format code with Prettier (`npx prettier --write .`)
+- `npm run typecheck` — type check (`tsc --noEmit`)
+- `npm run format` — format code with Prettier
+- `npm run format:check` — verify formatting without writing
 - `npm run validate` — full validation (lint + typecheck + build)
-- `npm run db:push` — Prisma db push (create schema in DB)
-- `npm run db:generate` — Prisma generate (generate client)
+- `npm run db:push` — Prisma db push (unused scaffold, requires `DATABASE_URL`)
+- `npm run db:generate` — Prisma generate (unused scaffold)
 - `npm run db:migrate` — Prisma migrate dev
 - `npm run db:reset` — Prisma migrate reset
 
@@ -107,7 +104,8 @@ The project uses **Next.js App Router** with domain-based grouping:
 ```
 src/
 ├── app/                    # App Router entry points
-│   ├── api/               # API routes (docs, health)
+│   ├── api/
+│   │   └── docs/route.ts   # Markdown download (whitelisted slugs only)
 │   ├── globals.css        # Global styles + CSS variables
 │   ├── layout.tsx         # Root layout + providers
 │   └── page.tsx           # Home page
@@ -128,15 +126,15 @@ src/
 │   ├── use-mobile.ts      # Mobile breakpoint detection
 │   └── use-toast.ts       # Toast hook wrapper
 └── lib/
-    ├── db.ts              # Prisma client singleton
-    ├── docs.ts            # Docs utilities (parsing, slugs)
+    ├── db.ts              # Prisma client singleton (unused scaffold)
+    ├── docs.ts            # Docs registry, file IO, TOC extraction
     ├── docs-types.ts      # TypeScript types for docs
-    └── utils.ts           # cn(), formatters, helpers
+    └── utils.ts           # cn(), pluralRu()
 ```
 
-**Documentation** — in `docs/` (design-guide.md + sources/) and `src/components/docs/` (interactive viewer).
+**Documentation** — in `docs/` (design-guide.md + sources/) and `src/components/docs/` (interactive viewer). The registry in `src/lib/docs.ts` is the whitelist: `/api/docs?file=<slug>` only serves slugs listed there, so path traversal is impossible by construction.
 
-**Configuration** — root files: `eslint.config.mjs`, `tsconfig.base.json`, `tailwind.config.ts`, `next.config.ts`, `.prettierrc`, `.editorconfig`.
+**Configuration** — root files: `eslint.config.mjs`, `tsconfig.base.json`, `tailwind.config.ts`, `next.config.ts`, `.prettierrc`, `.editorconfig`, `.gitattributes`.
 
 ## Contributing
 
@@ -152,7 +150,7 @@ src/
 
 **Rules**:
 
-- All PRs must pass `npm run lint` (0 errors), `npx tsc --noEmit`, `npm run build`
+- All PRs must pass `npm run validate` (lint + typecheck + build) and `npm run format:check`
 - Commits — Conventional Commits (`feat:`, `fix:`, `docs:`, `refactor:`, `chore:`, `test:`, `perf:`)
 - Branches — `feat/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`, `test/*`
 
