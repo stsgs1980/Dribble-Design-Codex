@@ -14,9 +14,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { pluralRu } from "@/lib/utils";
+import { useMounted } from "@/hooks/use-mounted";
 import { DocList } from "./doc-list";
 import { TableOfContents } from "./table-of-contents";
-import type { DocPayload } from "@/lib/docs-types";
+import type { DocMeta, DocPayload, TocHeading } from "@/lib/docs-types";
 
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -35,19 +36,21 @@ function ThemeToggle() {
   );
 }
 
-export function SiteHeader({
-  docs,
-  activeDoc,
-  onSelectDoc,
-}: {
-  docs: DocPayload[];
+interface SiteHeaderProps {
+  docs: DocMeta[];
   activeDoc: DocPayload;
   onSelectDoc: (slug: string) => void;
-}) {
+}
+
+export function SiteHeader({ docs, activeDoc, onSelectDoc }: SiteHeaderProps) {
   const { scrollY, scrollYProgress } = useScroll();
   const [scrolled, setScrolled] = React.useState(false);
   const [docsOpen, setDocsOpen] = React.useState(false);
   const [tocOpen, setTocOpen] = React.useState(false);
+  // Radix Sheet triggers carry generated ARIA wiring that must not differ
+  // between the server render and hydration, so the Sheets are mounted on the
+  // client only; before that a visually identical static button is rendered.
+  const mounted = useMounted();
 
   useMotionValueEvent(scrollY, "change", (value) => {
     const isScrolled = value > 32;
@@ -74,31 +77,42 @@ export function SiteHeader({
     >
       <div className="mx-auto flex h-full w-full max-w-[1440px] items-center gap-2 px-4 sm:px-6">
         {/* Documents sheet (mobile) */}
-        <Sheet open={docsOpen} onOpenChange={setDocsOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-11 lg:hidden"
-              aria-label="Открыть список документов"
-              suppressHydrationWarning
-            >
-              <PanelLeft className="size-[18px]" aria-hidden="true" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[300px] gap-0 border-border/60 p-0">
-            <SheetHeader className="border-b border-border/60 px-5 py-4">
-              <SheetTitle className="text-base">Документы</SheetTitle>
-              <SheetDescription className="text-xs">
-                {docs.length} {pluralRu(docs.length, "документ", "документа", "документов")}{" "}
-                дизайн-системы
-              </SheetDescription>
-            </SheetHeader>
-            <div className="flex-1 overflow-y-auto p-4">
-              <DocList docs={docs} activeSlug={activeDoc.slug} onSelect={handleSelect} />
-            </div>
-          </SheetContent>
-        </Sheet>
+        {mounted ? (
+          <Sheet open={docsOpen} onOpenChange={setDocsOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-11 lg:hidden"
+                aria-label="Открыть список документов"
+              >
+                <PanelLeft className="size-[18px]" aria-hidden="true" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] gap-0 border-border/60 p-0">
+              <SheetHeader className="border-b border-border/60 px-5 py-4">
+                <SheetTitle className="text-base">Документы</SheetTitle>
+                <SheetDescription className="text-xs">
+                  {docs.length} {pluralRu(docs.length, "документ", "документа", "документов")}{" "}
+                  дизайн-системы
+                </SheetDescription>
+              </SheetHeader>
+              <div className="flex-1 overflow-y-auto p-4">
+                <DocList docs={docs} activeSlug={activeDoc.slug} onSelect={handleSelect} />
+              </div>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-11 lg:hidden"
+            aria-label="Открыть список документов"
+            tabIndex={-1}
+          >
+            <PanelLeft className="size-[18px]" aria-hidden="true" />
+          </Button>
+        )}
 
         {/* Brand */}
         <div className="flex min-w-0 items-center gap-2.5">
@@ -131,28 +145,41 @@ export function SiteHeader({
           </Button>
 
           {/* Table of contents sheet (mobile) */}
-          <Sheet open={tocOpen} onOpenChange={setTocOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-11 lg:hidden"
-                aria-label="Открыть содержание"
-                suppressHydrationWarning
-              >
-                <ListTree className="size-[18px]" aria-hidden="true" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] gap-0 border-border/60 p-0">
-              <SheetHeader className="border-b border-border/60 px-5 py-4">
-                <SheetTitle className="text-base">Содержание</SheetTitle>
-                <SheetDescription className="truncate text-xs">{activeDoc.title}</SheetDescription>
-              </SheetHeader>
-              <div className="flex min-h-0 flex-1 flex-col p-4">
-                <TableOfContents headings={activeDoc.toc} />
-              </div>
-            </SheetContent>
-          </Sheet>
+          {mounted ? (
+            <Sheet open={tocOpen} onOpenChange={setTocOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-11 lg:hidden"
+                  aria-label="Открыть содержание"
+                >
+                  <ListTree className="size-[18px]" aria-hidden="true" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] gap-0 border-border/60 p-0">
+                <SheetHeader className="border-b border-border/60 px-5 py-4">
+                  <SheetTitle className="text-base">Содержание</SheetTitle>
+                  <SheetDescription className="truncate text-xs">
+                    {activeDoc.title}
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="flex min-h-0 flex-1 flex-col p-4">
+                  <TableOfContents key={activeDoc.slug} headings={activeDoc.toc} />
+                </div>
+              </SheetContent>
+            </Sheet>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-11 lg:hidden"
+              aria-label="Открыть содержание"
+              tabIndex={-1}
+            >
+              <ListTree className="size-[18px]" aria-hidden="true" />
+            </Button>
+          )}
 
           <ThemeToggle />
         </div>

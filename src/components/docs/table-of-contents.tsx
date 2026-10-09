@@ -24,11 +24,9 @@ export function TableOfContents({
   const [query, setQuery] = React.useState("");
   const [activeId, setActiveId] = React.useState<string>(headings[0]?.id ?? "");
 
-  // Reset the highlight when the document changes.
-  React.useEffect(() => {
-    setActiveId(headings[0]?.id ?? "");
-    setQuery("");
-  }, [headings]);
+  // Note: when the document changes, callers remount this component via
+  // `key={doc.slug}` (docs-viewer, site-header), so the state above is
+  // re-initialized from the new headings without a reset effect.
 
   // Scroll-spy: highlights the section currently in view.
   React.useEffect(() => {

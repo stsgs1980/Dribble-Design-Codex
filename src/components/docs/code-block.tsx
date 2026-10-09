@@ -2,22 +2,58 @@
 
 import * as React from "react";
 import { Check, Copy } from "lucide-react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import PrismLight from "react-syntax-highlighter/dist/esm/prism-light";
+import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
+import css from "react-syntax-highlighter/dist/esm/languages/prism/css";
+import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
+import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
+import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
+import markdown from "react-syntax-highlighter/dist/esm/languages/prism/markdown";
+import markup from "react-syntax-highlighter/dist/esm/languages/prism/markup";
+import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx";
+import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { cn } from "@/lib/utils";
+
+// PrismLight ships no grammars by default: registering only the languages the
+// documentation actually uses keeps the client bundle small (the default
+// Prism build pulls in every language plus a second highlight.js copy).
+PrismLight.registerLanguage("bash", bash);
+PrismLight.registerLanguage("css", css);
+PrismLight.registerLanguage("javascript", javascript);
+PrismLight.registerLanguage("jsx", jsx);
+PrismLight.registerLanguage("json", json);
+PrismLight.registerLanguage("markdown", markdown);
+PrismLight.registerLanguage("markup", markup);
+PrismLight.registerLanguage("tsx", tsx);
+PrismLight.registerLanguage("typescript", typescript);
+// Aliases used in the docs.
+PrismLight.registerLanguage("js", javascript);
+PrismLight.registerLanguage("ts", typescript);
+PrismLight.registerLanguage("sh", bash);
+PrismLight.registerLanguage("shell", bash);
+PrismLight.registerLanguage("html", markup);
+PrismLight.registerLanguage("xml", markup);
+PrismLight.registerLanguage("svg", markup);
+PrismLight.registerLanguage("md", markdown);
 
 const LANGUAGE_LABELS: Record<string, string> = {
   css: "CSS",
   ts: "TypeScript",
+  typescript: "TypeScript",
   tsx: "TSX",
   js: "JavaScript",
+  javascript: "JavaScript",
   jsx: "JSX",
   json: "JSON",
   bash: "Bash",
   sh: "Shell",
+  shell: "Shell",
   text: "Text",
   md: "Markdown",
+  markdown: "Markdown",
   html: "HTML",
+  xml: "XML",
 };
 
 const CODE_FONT = "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace";
@@ -98,7 +134,7 @@ export function CodeBlock({ code, language }: { code: string; language: string }
         </button>
       </div>
       <div className="bg-[#282c34]">
-        <SyntaxHighlighter
+        <PrismLight
           language={language}
           style={oneDark}
           customStyle={{
@@ -113,7 +149,7 @@ export function CodeBlock({ code, language }: { code: string; language: string }
           codeTagProps={{ style: { fontFamily: "inherit", fontSize: "inherit" } }}
         >
           {code.replace(/\n$/, "")}
-        </SyntaxHighlighter>
+        </PrismLight>
       </div>
     </div>
   );
