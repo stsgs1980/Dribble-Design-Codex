@@ -1,15 +1,18 @@
 import type { NextConfig } from "next";
 
 // Pragmatic CSP: the docs viewer needs inline styles (framer-motion, theme
-// tokens) and next-themes injects a small inline no-flash script. The policy
-// still blocks any external script/style origins and plugin content.
+// tokens) and next-themes injects a small inline no-flash script, so scripts
+// and styles allow 'unsafe-inline'. The policy still blocks external
+// script/style origins and plugin content. Note: 'unsafe-eval' is
+// intentionally not allowed - verified that the production (and dev) build
+// runs without eval-style execution.
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "form-action 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
