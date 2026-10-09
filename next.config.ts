@@ -2,17 +2,20 @@ import type { NextConfig } from "next";
 
 // Pragmatic CSP: the docs viewer needs inline styles (framer-motion, theme
 // tokens) and next-themes injects a small inline no-flash script, so scripts
-// and styles allow 'unsafe-inline'. The policy still blocks external
-// script/style origins and plugin content. Note: 'unsafe-eval' is
-// intentionally not allowed - verified that the production (and dev) build
-// runs without eval-style execution.
+// and styles allow 'unsafe-inline'. 'unsafe-eval' is granted to development
+// only: React dev mode requires eval() for debugging features
+// (react-server-dom-turbopack checkEvalAvailabilityOnceDev), while the
+// production bundle never calls eval(). The deployed policy stays strict.
+const isDevelopment = process.env.NODE_ENV !== "production";
+const scriptSrc = isDevelopment ? "'self' 'unsafe-inline' 'unsafe-eval'" : "'self' 'unsafe-inline'";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "form-action 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src ${scriptSrc}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self' data:",
