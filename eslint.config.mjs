@@ -93,17 +93,26 @@ export default [
   ...nextCoreWebVitals,
   ...nextTypescript,
   {
+    // shadcn/ui vendor primitives (copied from the shadcn registry): their
+    // setApi-style effects intentionally sync state in effects. Must come
+    // after the eslint-config-next blocks, which enable the rule as an error.
+    files: ["src/components/ui/**"],
     rules: {
-      // TypeScript rules
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
+  {
+    rules: {
+      // TypeScript rules (no-unused-vars comes as "warn" from
+      // eslint-config-next/typescript; overrides here would need the
+      // @typescript-eslint plugin registered in this same config object).
       "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/prefer-as-const": "off",
       "@typescript-eslint/no-unused-disable-directive": "off",
 
-      // React rules
-      "react-hooks/exhaustive-deps": "off",
+      // React rules (react-hooks/* is configured by eslint-config-next).
       "react-hooks/purity": "off",
       "react/no-unescaped-entities": "off",
       "react/display-name": "off",
@@ -118,7 +127,7 @@ export default [
       "prefer-const": "off",
       "no-unused-vars": "off",
       "no-console": "off",
-      "no-debugger": "off",
+      "no-debugger": "error",
       "no-empty": "off",
       "no-case-declarations": "off",
       "no-fallthrough": "off",

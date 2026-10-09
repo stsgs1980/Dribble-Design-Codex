@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { DocIcon } from "./doc-icon";
-import type { DocPayload } from "@/lib/docs-types";
+import type { DocMeta } from "@/lib/docs-types";
 
 export function DocList({
   docs,
@@ -11,7 +11,7 @@ export function DocList({
   onSelect,
   className,
 }: {
-  docs: DocPayload[];
+  docs: DocMeta[];
   activeSlug: string;
   onSelect: (slug: string) => void;
   className?: string;

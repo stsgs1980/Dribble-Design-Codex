@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Download, FileText, ListTree } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -10,18 +11,23 @@ import { DocList } from "./doc-list";
 import { MarkdownContent } from "./markdown-content";
 import { SiteHeader } from "./site-header";
 import { TableOfContents } from "./table-of-contents";
-import type { DocPayload } from "@/lib/docs-types";
+import type { DocMeta, DocPayload } from "@/lib/docs-types";
 
-export function DocsViewer({ docs }: { docs: DocPayload[] }) {
-  const [activeSlug, setActiveSlug] = React.useState(docs[0]?.slug ?? "");
-  const activeDoc = docs.find((doc) => doc.slug === activeSlug) ?? docs[0];
+export function DocsViewer({ docs, activeDoc }: { docs: DocMeta[]; activeDoc: DocPayload | null }) {
+  const router = useRouter();
 
-  const selectDoc = React.useCallback((slug: string) => {
-    setActiveSlug(slug);
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    }
-  }, []);
+  // Document selection is URL-driven (?doc=slug): the page server component
+  // renders only the active document's content, so switching never ships the
+  // other documents to the client and the URL stays shareable.
+  const selectDoc = React.useCallback(
+    (slug: string) => {
+      router.push(`/?doc=${encodeURIComponent(slug)}`, { scroll: false });
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+      }
+    },
+    [router],
+  );
 
   if (!activeDoc) {
     return (
@@ -150,7 +156,7 @@ export function DocsViewer({ docs }: { docs: DocPayload[] }) {
             Содержание
           </p>
           <div className="flex min-h-0 flex-1 flex-col px-4 pb-6">
-            <TableOfContents headings={activeDoc.toc} />
+            <TableOfContents key={activeDoc.slug} headings={activeDoc.toc} />
           </div>
         </aside>
       </div>

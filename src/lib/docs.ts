@@ -9,7 +9,7 @@ import type { DocMeta, DocPayload, TocHeading } from "./docs-types";
 export const docRegistry: readonly DocMeta[] = [
   {
     slug: "design-guide",
-    file: "docs/design-guide.md",
+    file: "design-guide.md",
     fileName: "design-guide.md",
     title: "Единый гайд по дизайну интерфейсов уровня Dribbble",
     subtitle: "Рабочий стандарт дизайна",
@@ -19,7 +19,7 @@ export const docRegistry: readonly DocMeta[] = [
   },
   {
     slug: "fundamentals",
-    file: "docs/sources/01-design-fundamentals.md",
+    file: "sources/01-design-fundamentals.md",
     fileName: "design-fundamentals.md",
     title: "Фундамент дизайна",
     subtitle: "Основы визуального дизайна",
@@ -29,7 +29,7 @@ export const docRegistry: readonly DocMeta[] = [
   },
   {
     slug: "layers",
-    file: "docs/sources/02-dribbble-level-layers.md",
+    file: "sources/02-dribbble-level-layers.md",
     fileName: "dribbble-level-layers.md",
     title: "Dribbble-уровень: слои",
     subtitle: "Модель шести слоёв визуального качества",
@@ -39,7 +39,7 @@ export const docRegistry: readonly DocMeta[] = [
   },
   {
     slug: "untitled-ui",
-    file: "docs/sources/03-untitled-ui-react-flow.md",
+    file: "sources/03-untitled-ui-react-flow.md",
     fileName: "untitled-ui-react-flow.md",
     title: "Untitled UI + React Flow",
     subtitle: "Стек без shadcn",
@@ -49,7 +49,7 @@ export const docRegistry: readonly DocMeta[] = [
   },
   {
     slug: "full-guide",
-    file: "docs/sources/04-design-guide-dribbble-level.md",
+    file: "sources/04-design-guide-dribbble-level.md",
     fileName: "design-guide-dribbble-level.md",
     title: "Гайд по дизайну: полный стек",
     subtitle: "Фундамент, стек, насмотренность",
@@ -107,18 +107,38 @@ export function extractToc(markdown: string): TocHeading[] {
   return headings;
 }
 
+/**
+ * Per-process read cache keyed by file mtime, so force-dynamic pages do not
+ * re-read and re-parse unchanged markdown on every request while edits in
+ * docs/** are still picked up immediately.
+ */
+const docCache = new Map<string, { mtimeMs: number; payload: DocPayload }>();
+
 function readDoc(meta: DocMeta): DocPayload {
-  const filePath = path.join(process.cwd(), meta.file);
+  // The "docs" segment is statically visible to the bundler so that the
+  // standalone output traces the docs/ folder instead of the whole project.
+  const filePath = path.join(process.cwd(), "docs", meta.file);
+  const { mtimeMs } = fs.statSync(filePath);
+  const cached = docCache.get(filePath);
+  if (cached && cached.mtimeMs === mtimeMs) return cached.payload;
+
   const content = fs.readFileSync(filePath, "utf8");
   const toc = extractToc(content);
 
-  return {
+  const payload: DocPayload = {
     ...meta,
     content,
     toc,
     lines: content.split(/\r?\n/).length,
     sections: toc.filter((heading) => heading.depth === 2).length,
   };
+  docCache.set(filePath, { mtimeMs, payload });
+  return payload;
+}
+
+/** Lightweight registry copy: sidebar/list data without file content. */
+export function getAllDocMetas(): DocMeta[] {
+  return docRegistry.map((meta) => ({ ...meta }));
 }
 
 /** Resolves a whitelisted slug to its full document. Returns null for unknown slugs. */

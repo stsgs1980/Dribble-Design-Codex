@@ -67,20 +67,16 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
    ```bash
    npm install
    ```
-3. Configure environment variables:
-   ```bash
-   cp .env.example .env
-   # Edit .env if needed
-   ```
-4. Start development server:
+3. Start development server:
    ```bash
    npm run dev
    ```
    Open http://localhost:3000
 
-The app reads its documents from `docs/` on every request, so there is no
-build step and no database to initialize — `.env` is only required if you
-intend to use the unused Prisma scaffold in `prisma/` and `src/lib/db.ts`.
+The app reads its documents from `docs/` on every request (with an mtime-based
+cache), so there is no build step and no database to initialize. The active
+document is selected via the URL query (`/?doc=<slug>`), which keeps the page
+shareable and avoids sending every document to the browser.
 
 ## Scripts
 
@@ -89,13 +85,11 @@ intend to use the unused Prisma scaffold in `prisma/` and `src/lib/db.ts`.
 - `npm run start` — start production server
 - `npm run lint` — run ESLint (0 errors policy)
 - `npm run typecheck` — type check (`tsc --noEmit`)
+- `npm test` — run unit tests (Vitest)
+- `npm run test:watch` — run unit tests in watch mode
 - `npm run format` — format code with Prettier
 - `npm run format:check` — verify formatting without writing
-- `npm run validate` — full validation (lint + typecheck + build)
-- `npm run db:push` — Prisma db push (unused scaffold, requires `DATABASE_URL`)
-- `npm run db:generate` — Prisma generate (unused scaffold)
-- `npm run db:migrate` — Prisma migrate dev
-- `npm run db:reset` — Prisma migrate reset
+- `npm run validate` — full validation (lint + typecheck + test + build)
 
 ## Architecture
 
@@ -126,8 +120,7 @@ src/
 │   ├── use-mobile.ts      # Mobile breakpoint detection
 │   └── use-toast.ts       # Toast hook wrapper
 └── lib/
-    ├── db.ts              # Prisma client singleton (unused scaffold)
-    ├── docs.ts            # Docs registry, file IO, TOC extraction
+    ├── docs.ts            # Docs registry, file IO (mtime cache), TOC extraction
     ├── docs-types.ts      # TypeScript types for docs
     └── utils.ts           # cn(), pluralRu()
 ```
