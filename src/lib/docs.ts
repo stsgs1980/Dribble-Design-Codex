@@ -4,8 +4,8 @@ import GithubSlugger from "github-slugger";
 import type { DocMeta, DocPayload, TocHeading } from "./docs-types";
 
 // Read-only registry of the project documentation. The slug is the only
-// value accepted by the /api/docs download endpoint (whitelist, no path
-// traversal possible: the file path always comes from this registry).
+// value accepted by the /api/docs/<slug> download endpoint (whitelist, no
+// path traversal possible: the file path always comes from this registry).
 export const docRegistry: readonly DocMeta[] = [
   {
     slug: "design-guide",
@@ -108,16 +108,14 @@ export function extractToc(markdown: string): TocHeading[] {
 }
 
 /**
- * Per-process read cache keyed by file mtime, so force-dynamic pages do not
- * re-read and re-parse unchanged markdown on every request while edits in
- * docs/** are still picked up immediately.
+ * Per-process read cache keyed by file mtime, so prerendered pages and route
+ * handlers re-read and re-parse unchanged markdown while edits in docs/** are
+ * still picked up on the next regeneration.
  */
 const docCache = new Map<string, { mtimeMs: number; payload: DocPayload }>();
 
 function readDoc(meta: DocMeta): DocPayload {
-  // The "docs" segment is statically visible to the bundler so that the
-  // standalone output traces the docs/ folder instead of the whole project.
-  const filePath = path.join(process.cwd(), "docs", meta.file);
+  const filePath = docFilePath(meta);
   const { mtimeMs } = fs.statSync(filePath);
   const cached = docCache.get(filePath);
   if (cached && cached.mtimeMs === mtimeMs) return cached.payload;
@@ -150,6 +148,32 @@ export function getDocBySlug(slug: string): DocPayload | null {
   } catch {
     return null;
   }
+}
+
+function docFilePath(meta: DocMeta): string {
+  // The "docs" segment is statically visible to the bundler so that the
+  // standalone output traces the docs/ folder instead of the whole project.
+  return path.join(process.cwd(), "docs", meta.file);
+}
+
+/**
+ * Change signature of the whole documentation set: every registered file's
+ * mtime and size, plus a marker for unreadable entries. The viewer pages and
+ * the download responses are prerendered (generateStaticParams), so their
+ * cache is invalidated on demand only when this signature changes — see the
+ * syncDocs server action in app/actions.ts.
+ */
+export function getDocsRevision(): string {
+  return docRegistry
+    .map((meta) => {
+      try {
+        const { mtimeMs, size } = fs.statSync(docFilePath(meta));
+        return `${meta.slug}:${mtimeMs}:${size}`;
+      } catch {
+        return `${meta.slug}:unreadable`;
+      }
+    })
+    .join("|");
 }
 
 /**

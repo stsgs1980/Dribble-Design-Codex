@@ -2,32 +2,63 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { Download, FileText, ListTree } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { pluralRu } from "@/lib/utils";
+import { docPath } from "@/lib/doc-paths";
+import { syncDocs } from "@/app/actions";
 import { DocList } from "./doc-list";
-import { MarkdownContent } from "./markdown-content";
 import { SiteHeader } from "./site-header";
 import { TableOfContents } from "./table-of-contents";
 import type { DocMeta, DocPayload } from "@/lib/docs-types";
 
+/**
+ * Markdown renderer for the active document, loaded as an async chunk so the
+ * heavy markdown and syntax-highlighting dependencies stay off the critical
+ * path.
+ */
+const MarkdownContent = dynamic(
+  () => import("./markdown-content").then((mod) => mod.MarkdownContent),
+  {
+    loading: () => (
+      <p className="px-4 py-16 text-[15px] text-muted-foreground sm:px-6 lg:px-10">
+        Загрузка документа...
+      </p>
+    ),
+  },
+);
+
 export function DocsViewer({ docs, activeDoc }: { docs: DocMeta[]; activeDoc: DocPayload | null }) {
   const router = useRouter();
 
-  // Document selection is URL-driven (?doc=slug): the page server component
-  // renders only the active document's content, so switching never ships the
-  // other documents to the client and the URL stays shareable.
+  // Document selection is URL-driven (path segments: / for the primary
+  // document, /<slug> for the rest) because the pages are prerendered with
+  // generateStaticParams: switching never ships the other documents to the
+  // client, the URL stays shareable, and every document is served from cache.
+  const docPaths = React.useMemo(
+    () => new Map(docs.map((meta) => [meta.slug, docPath(meta)] as const)),
+    [docs],
+  );
+
   const selectDoc = React.useCallback(
     (slug: string) => {
-      router.push(`/?doc=${encodeURIComponent(slug)}`, { scroll: false });
+      router.push(docPaths.get(slug) ?? "/", { scroll: false });
       if (typeof window !== "undefined") {
         window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       }
     },
-    [router],
+    [router, docPaths],
   );
+
+  // The pages are prerendered, so freshness comes from this check instead of
+  // a per-request render: it stats docs/** on every full page load and
+  // invalidates the cache when the files changed.
+  React.useEffect(() => {
+    void syncDocs();
+  }, []);
 
   if (!activeDoc) {
     return (
@@ -110,7 +141,7 @@ export function DocsViewer({ docs, activeDoc }: { docs: DocMeta[]; activeDoc: Do
                     className="h-11 gap-2 rounded-lg bg-brand px-5 text-sm text-brand-foreground shadow-lg shadow-brand/25 hover:bg-brand/90"
                   >
                     <a
-                      href={`/api/docs?file=${activeDoc.slug}`}
+                      href={`/api/docs/${activeDoc.slug}`}
                       download
                       aria-label={`Скачать документ ${activeDoc.title} в формате Markdown`}
                     >

@@ -13,7 +13,7 @@ export interface TocHeading {
 }
 
 export interface DocMeta {
-  /** Whitelisted slug used in the download API (/api/docs?file=slug). */
+  /** Whitelisted slug used in the download API (/api/docs/<slug>). */
   slug: string;
   /** Path to the markdown file relative to the docs/ directory. */
   file: string;

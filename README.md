@@ -73,10 +73,13 @@ Dribble Design Codex is a reference guide and reference implementation of a Drib
    ```
    Open http://localhost:3000
 
-The app reads its documents from `docs/` on every request (with an mtime-based
-cache), so there is no build step and no database to initialize. The active
-document is selected via the URL query (`/?doc=<slug>`), which keeps the page
-shareable and avoids sending every document to the browser.
+The app reads its documents from `docs/`. Pages are prerendered at build time
+(`generateStaticParams`: `/` for the main document, `/<slug>` for the rest),
+and the browser checks the `docs/` mtime signature on every full page load —
+when a file changed, the affected prerendered pages and download responses are
+revalidated, so edits appear without a rebuild. The active document is selected
+by its path (`/<slug>`), which keeps the page shareable and avoids sending
+every document to the browser.
 
 ## Scripts
 
@@ -99,10 +102,12 @@ The project uses **Next.js App Router** with domain-based grouping:
 src/
 ├── app/                    # App Router entry points
 │   ├── api/
-│   │   └── docs/route.ts   # Markdown download (whitelisted slugs only)
+│   │   └── docs/[file]/    # Markdown download (one static path per slug)
+│   ├── [doc]/page.tsx      # Document page, prerendered per registry slug
+│   ├── actions.ts          # syncDocs: revalidation by docs/ mtime signature
 │   ├── globals.css        # Global styles + CSS variables
 │   ├── layout.tsx         # Root layout + providers
-│   └── page.tsx           # Home page
+│   └── page.tsx           # Home page (primary document)
 ├── components/
 │   ├── docs/              # Documentation viewer components
 │   │   ├── code-block.tsx
@@ -120,12 +125,15 @@ src/
 │   ├── use-mobile.ts      # Mobile breakpoint detection
 │   └── use-toast.ts       # Toast hook wrapper
 └── lib/
+    ├── content-disposition.ts # Escaping for Content-Disposition file names
+    ├── doc-paths.ts     # Document URLs (/ for the primary, /<slug>)
     ├── docs.ts            # Docs registry, file IO (mtime cache), TOC extraction
     ├── docs-types.ts      # TypeScript types for docs
+    ├── safe-href.ts       # URL scheme allowlist for markdown links
     └── utils.ts           # cn(), pluralRu()
 ```
 
-**Documentation** — in `docs/` (design-guide.md + sources/) and `src/components/docs/` (interactive viewer). The registry in `src/lib/docs.ts` is the whitelist: `/api/docs?file=<slug>` only serves slugs listed there, so path traversal is impossible by construction.
+**Documentation** — in `docs/` (design-guide.md + sources/) and `src/components/docs/` (interactive viewer). The registry in `src/lib/docs.ts` is the whitelist: `/api/docs/<slug>` only serves the slugs that `generateStaticParams` prerenders there, so path traversal is impossible by construction.
 
 **Configuration** — root files: `eslint.config.mjs`, `tsconfig.base.json`, `tailwind.config.ts`, `next.config.ts`, `.prettierrc`, `.editorconfig`, `.gitattributes`.
 

@@ -135,7 +135,7 @@ export function SiteHeader({ docs, activeDoc, onSelectDoc }: SiteHeaderProps) {
             className="hidden h-11 gap-2 text-[13px] text-muted-foreground hover:text-foreground sm:inline-flex lg:h-8"
           >
             <a
-              href={`/api/docs?file=${activeDoc.slug}`}
+              href={`/api/docs/${activeDoc.slug}`}
               download
               aria-label={`Скачать документ ${activeDoc.title} в формате Markdown`}
             >

@@ -4,8 +4,9 @@ import * as React from "react";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
-import { motion, useReducedMotion } from "framer-motion";
 import { Check, ExternalLink, Hash } from "lucide-react";
+import { observeReveal, unobserveReveal } from "@/lib/reveal";
+import { sanitizeHref } from "@/lib/safe-href";
 import { CodeBlock } from "./code-block";
 import { cn } from "@/lib/utils";
 
@@ -26,41 +27,35 @@ function nodeText(node: React.ReactNode): string {
   return "";
 }
 
-const REVEAL_VIEWPORT = { once: true, margin: "0px 0px -48px 0px" } as const;
-
 type RevealTag = "p" | "ul" | "ol" | "blockquote" | "div";
 
 /**
- * Subtle scroll-reveal wrapper. Skipped entirely when the user prefers
- * reduced motion. Code blocks and headings are never animated.
+ * Scroll-reveal wrapper. The element registers itself with the one
+ * document-wide observer in lib/reveal.ts, which flips [data-revealed] the
+ * first time the block enters the viewport; the animation itself is CSS, so
+ * reduced-motion users and browsers without IntersectionObserver render the
+ * plain static markup with nothing hidden.
  */
 function Reveal({
   tag,
-  reduced,
   className,
   children,
 }: {
   tag: RevealTag;
-  reduced: boolean;
   className?: string;
   children: React.ReactNode;
 }) {
-  if (reduced) {
-    const Tag = tag;
-    return <Tag className={className}>{children}</Tag>;
-  }
+  const ref = React.useCallback((node: HTMLElement | null) => {
+    if (!node) return;
+    observeReveal(node);
+    return () => unobserveReveal(node);
+  }, []);
 
-  const MotionTag = (motion as unknown as Record<RevealTag, typeof motion.p>)[tag];
+  const Tag = tag as React.ElementType;
   return (
-    <MotionTag
-      className={className}
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={REVEAL_VIEWPORT}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-    >
+    <Tag ref={ref} className={className} data-reveal="">
       {children}
-    </MotionTag>
+    </Tag>
   );
 }
 
@@ -78,7 +73,7 @@ function AnchorLink({ id }: { id?: string }) {
   );
 }
 
-function createComponents(reduced: boolean): Components {
+function createComponents(): Components {
   return {
     // The document title is rendered in the hero section instead.
     h1: () => null,
@@ -124,32 +119,16 @@ function createComponents(reduced: boolean): Components {
       </h6>
     ),
 
-    p: ({ children }) => (
-      <Reveal tag="p" reduced={reduced}>
-        {children}
-      </Reveal>
-    ),
+    p: ({ children }) => <Reveal tag="p">{children}</Reveal>,
 
-    ul: ({ children }) => (
-      <Reveal tag="ul" reduced={reduced}>
-        {children}
-      </Reveal>
-    ),
+    ul: ({ children }) => <Reveal tag="ul">{children}</Reveal>,
 
-    ol: ({ children }) => (
-      <Reveal tag="ol" reduced={reduced}>
-        {children}
-      </Reveal>
-    ),
+    ol: ({ children }) => <Reveal tag="ol">{children}</Reveal>,
 
-    blockquote: ({ children }) => (
-      <Reveal tag="blockquote" reduced={reduced}>
-        {children}
-      </Reveal>
-    ),
+    blockquote: ({ children }) => <Reveal tag="blockquote">{children}</Reveal>,
 
     table: ({ children }) => (
-      <Reveal tag="div" reduced={reduced} className="my-6">
+      <Reveal tag="div" className="my-6">
         <div className="w-full overflow-x-auto rounded-xl border border-border/70 bg-card/40">
           <table className="w-full">{children}</table>
         </div>
@@ -157,10 +136,23 @@ function createComponents(reduced: boolean): Components {
     ),
 
     a: ({ href, children }) => {
-      const isExternal = Boolean(href && /^https?:\/\//.test(href));
+      // Scheme allowlist: http(s), mailto and tel plus relative URLs (anchors,
+      // paths). The markdown is repository content, but a link like
+      // `[x](javascript:alert(1))` must never become an executable href, so
+      // anything else is rendered as plain text without an anchor.
+      const safeHref = sanitizeHref(href);
+      if (!safeHref) {
+        return (
+          <span className="font-medium text-brand underline decoration-brand/40 underline-offset-4">
+            {children}
+          </span>
+        );
+      }
+
+      const isExternal = /^https?:\/\//i.test(safeHref);
       return (
         <a
-          href={href}
+          href={safeHref}
           {...(isExternal ? { target: "_blank", rel: "noreferrer noopener" } : {})}
           className="font-medium text-brand underline decoration-brand/40 underline-offset-4 transition-colors hover:decoration-brand"
         >
@@ -218,11 +210,9 @@ export const MarkdownContent = React.memo(function MarkdownContent({
 }: {
   content: string;
 }) {
-  const reducedMotion = useReducedMotion();
-  const components = React.useMemo<Components>(
-    () => createComponents(reducedMotion ?? false),
-    [reducedMotion],
-  );
+  // The component map is static: the reveal decision is a CSS media query, so
+  // it no longer depends on the user's motion preference at render time.
+  const components = React.useMemo<Components>(() => createComponents(), []);
 
   return (
     <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSlug]} components={components}>

@@ -147,3 +147,27 @@ Stage Summary:
 
 - Основная рекомендация: Design Atlas (гайд буквально является картой территории дизайна: приложение "Полная карта стека", навигация, 87 заголовков)
 - Применение названия к сайту/репозиторию отложено до выбора пользователя
+
+---
+
+Task ID: 8
+Agent: main (opencode)
+Task: Заменить force-dynamic на generateStaticParams + ревалидацию по mtime; добавить allowlist схем для href + escape имени файла в Content-Disposition.
+
+Work Log:
+
+- Создан src/lib/safe-href.ts: sanitizeHref() пропускает только схемы http/https/mailto/tel и относительные URL (#, /, ./, ?, //host); схема определяется после удаления управляющих символов и пробелов, поэтому "java\tscript:alert(1)" и "JaVaScRiPt:" тоже блокируются; неизвестная схема (javascript:, data:, vbscript:, file:, blob:) и пустой href -> null
+- Создан src/lib/content-disposition.ts: escapeFileNameParameter() экранирует " и \ внутри quoted-string и убирает CR/LF (защита от header smuggling), attachmentDisposition() собирает значение заголовка
+- Документы переехали с query-параметра (?doc=) на path-сегменты: src/app/page.tsx (статический / для основного документа, force-dynamic удалён) и src/app/[doc]/page.tsx (generateStaticParams по реестру slug'ов; неизвестный slug -> notFound() через whitelist реестра, slug основного документа -> redirect на /); добавлен src/lib/doc-paths.ts с docPath()
+- API скачивания переехал с /api/docs?file= на /api/docs/[file]: generateStaticParams по реестру (один prerender на slug), dynamicParams остаётся true — неизвестные slug проходят через тот же whitelist и получают 404; force-dynamic и Cache-Control: no-store удалены, Content-Disposition собирается через escaping-хелпер
+- Создан src/app/actions.ts: серверное действие syncDocs() — на каждой полной загрузке страницы DocsViewer вызывает его; сравнивается mtime+size сигнатура docs/ (getDocsRevision() в src/lib/docs.ts), при изменении выполняется revalidatePath для /, всех /<slug> и /api/docs/<slug> плюс refresh(); базовая ревизия изначально null, поэтому первая загрузка инвалидирует один раз (самоисцеление после рестарта)
+- markdown-content.tsx: компонент a: рендерит ссылку только при безопасном href (sanitizeHref), иначе — span с тем же оформлением; isExternal считается по санитизированному значению
+- docs-viewer.tsx: selectDoc переводит на docPath(slug) вместо /?doc=; ссылки скачивания в docs-viewer и site-header ведут на /api/docs/<slug>; useEffect вызывает syncDocs при монтировании
+- Обновлены README.md (архитектура, API, mtime-ревалидация) и комментарии в src/lib/docs.ts / docs-types.ts; типгенерировано через next typegen, удалён устаревший .next/dev после переноса route-хендлера
+
+Stage Summary:
+
+- force-dynamic больше нет: страницы документов и ответы /api/docs/[file] пререндерятся generateStaticParams, актуальность обеспечивает инвалидация по mtime-сигнатуре docs/ (эффективнее force-dynamic: нет рендера на каждый запрос, редакции docs/ всё так же подхватываются без пересборки)
+- Безопасность: href из markdown ограничен allowlist схем (javascript:/data:/vbscript: не проходят), имя файла в Content-Disposition экранируется (кавычки, бэкслеши, CR/LF); whitelist реестра для /api/docs/<slug> сохранён (path traversal по-прежнему невозможен)
+- Публичные URL изменились: /?doc=<slug> -> /<slug> и /api/docs?file=<slug> -> /api/docs/<slug>
+- Тесты: 37 passed (5 файлов): новый route.test.ts для /api/docs/[file] (200 + заголовок, 404 на неизвестные slug и traversal), safe-href.test.ts (allowlist, обфускация, регистр), content-disposition.test.ts (экранирование и инъекция заголовков); typecheck и next typegen чистые
