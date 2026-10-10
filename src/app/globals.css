@@ -173,6 +173,28 @@
     radial-gradient(30rem 16rem at 50% -6%, oklch(0.8 0.09 165 / 0.07), transparent 60%);
 }
 
+/* ------------------------------------------------------------
+   Scroll reveal for the markdown body. One document-wide
+   IntersectionObserver (src/lib/reveal.ts) flips [data-revealed] on
+   each block below the fold, so the animation itself is pure CSS.
+   The animation is opt-in through [data-reveal-ready], which only
+   exists once that observer is running: with scripting disabled, or
+   on a browser without IntersectionObserver, nothing is ever
+   hidden. Reduced motion keeps the markup static as well.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal-ready] [data-reveal] {
+    transition:
+      opacity 0.4s ease-out,
+      transform 0.4s ease-out;
+  }
+
+  [data-reveal-ready] [data-reveal]:not([data-revealed="true"]) {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
 /* Thin muted scrollbar for the TOC ScrollArea */
 .toc-scroll [data-slot="scroll-area-scrollbar"] {
   width: 3px;
