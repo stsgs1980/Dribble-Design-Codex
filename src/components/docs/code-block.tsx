@@ -2,17 +2,19 @@
 
 import * as React from "react";
 import { Check, Copy } from "lucide-react";
-import PrismLight from "react-syntax-highlighter/dist/esm/prism-light";
-import bash from "react-syntax-highlighter/dist/esm/languages/prism/bash";
-import css from "react-syntax-highlighter/dist/esm/languages/prism/css";
-import javascript from "react-syntax-highlighter/dist/esm/languages/prism/javascript";
-import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx";
-import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
-import markdown from "react-syntax-highlighter/dist/esm/languages/prism/markdown";
-import markup from "react-syntax-highlighter/dist/esm/languages/prism/markup";
-import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx";
-import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  PrismLight,
+  bash,
+  css,
+  javascript,
+  jsx,
+  json,
+  markdown,
+  markup,
+  oneDark,
+  tsx,
+  typescript,
+} from "@/lib/syntax-highlight";
 import { cn } from "@/lib/utils";
 
 // PrismLight ships no grammars by default: registering only the languages the
