@@ -59,7 +59,7 @@ describe("docs: packages that do not exist or are named incorrectly", () => {
     expectAbsent("dead packages", ALL_DOCS, [
       /@xyflow\/react-controls/,
       /iconify-react/,
-      /shimmer-border/i,
+      /shimmer-border(?!`\s+в каталоге нет)/i,
       /untitled-ui@latest/,
       /untitled-ui@\^/,
       /@untitled-ui\/icons/,

@@ -70,11 +70,11 @@
 
 **Шрифтовая система:**
 
-| Роль      | Шрифт                                                          | Обоснование                                                    |
-| --------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| Заголовки | **Geist** (Vercel) / **Satoshi** (Fontshare) / Cabinet Grotesk | Выразительные, геометричные; Inter "переиспользован до смерти" |
-| Body      | **Inter**                                                      | Нейтральный, отлично читается                                  |
-| Код       | **JetBrains Mono**                                             | Стандарт для моноширинного кода                                |
+| Роль      | Шрифт              | Обоснование                                                                                                                              |
+| --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Заголовки | **Geist**          | Выразительный, геометричный; Inter "переиспользован до смерти". `Satoshi` и `Cabinet Grotesk` — только для латиницы: кириллицы в них нет |
+| Body      | **Inter**          | Нейтральный, отлично читается                                                                                                            |
+| Код       | **JetBrains Mono** | Стандарт для моноширинного кода                                                                                                          |
 
 Ключевой принцип: **замена заголовочного шрифта — минимальное изменение с максимальным эффектом**. Одно CSS-правило полностью меняет восприятие продукта.
 
@@ -116,7 +116,7 @@ Dribbble-уровень — это не одна библиотека, а **сл
 | --------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | 1. База                     | shadcn/ui + radix-ui (или Untitled UI + react-aria-components), Tailwind CSS 4, motion               | Около 40% визуального уровня (эвристика; Tremor в базу не входит — см. 11.1) |
 | 2. Анимированные компоненты | Magic UI: shine-border, animated beam, marquee, number ticker, dock, meteors, particles, border-beam | Переход с "хорошо" на "замечательно"                                         |
-| 3. Типографика              | Geist / Satoshi для заголовков, Inter для body, JetBrains Mono для кода                              | Выразительность, отстройка от шаблонных SaaS                                 |
+| 3. Типографика              | Geist для заголовков, Inter для body, JetBrains Mono для кода (Satoshi — только латиница)            | Выразительность, отстройка от шаблонных SaaS                                 |
 | 4. Иконки                   | Phosphor Icons (duotone) как основной набор, Iconify как резерв                                      | Глубина и премиальность                                                      |
 | 5. Текстуры и эффекты       | Noise, glassmorphism, mesh-градиенты, grain, animated borders, spotlight, Lenis                      | "Тактильность" и кинематографичность                                         |
 | 6. Иллюстрации и графика    | Spline (3D hero), lottie-react (состояния), SVG-иллюстрации                                          | "Тот самый" момент продукта                                                  |
@@ -127,7 +127,7 @@ Dribbble-уровень — это не одна библиотека, а **сл
 Базовый стек (UI-кит + Tailwind 4 + motion)
   + Magic UI          (анимированные компоненты)
   + Phosphor Icons    (или Iconify)
-  + Geist / Satoshi   (заголовочный шрифт)
+  + Geist               (заголовочный шрифт)
   + Lenis             (smooth scroll)
   + lottie-react      (анимации пустых состояний)
   + SVG noise-текстура (CSS-фильтр, без зависимостей)
@@ -232,11 +232,11 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
 
 ### 5.1. Шрифтовая система
 
-| Роль                       | Основной вариант   | Альтернативы             |
-| -------------------------- | ------------------ | ------------------------ |
-| Заголовки (display, h1-h3) | **Geist**          | Satoshi, Cabinet Grotesk |
-| Body-текст                 | **Inter**          | —                        |
-| Код, моноширинный          | **JetBrains Mono** | —                        |
+| Роль                       | Основной вариант                                   | Альтернативы                                              |
+| -------------------------- | -------------------------------------------------- | --------------------------------------------------------- |
+| Заголовки (display, h1-h3) | **Geist** (npm-пакет `geist` ^1.7.2 или next/font) | Только латиница: Satoshi, Cabinet Grotesk — кириллицы нет |
+| Body-текст                 | **Inter**                                          | —                                                         |
+| Код, моноширинный          | **JetBrains Mono**                                 | —                                                         |
 
 Правило отстройки: Inter для заголовков "переиспользован до смерти" — каждый второй SaaS собран на нём. Выразительный гротеск для заголовков + нейтральный Inter для body — рабочая пара уровня Linear/Vercel.
 
@@ -247,17 +247,17 @@ import { Geist, Inter, JetBrains_Mono } from "next/font/google";
 
 const geistSans = Geist({
   variable: "--font-heading",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 const inter = Inter({
   variable: "--font-body",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
 });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -293,17 +293,19 @@ kbd {
 }
 ```
 
+Альтернатива — npm-пакет `geist` (1.7.2, 0 зависимостей): `geist/font/sans` и `geist/font/mono`, кириллица полная, подмножества не нужны. Пара Geist Sans + Geist Mono даёт единую дизайнерскую гармонию и один источник подключения.
+
 ### 5.3. Типографическая шкала
 
-| Уровень | Размер / line-height | letter-spacing | Tailwind                                            |
-| ------- | -------------------- | -------------- | --------------------------------------------------- |
-| Display | 48-60px / 1.1        | -0.02em        | `text-5xl md:text-6xl leading-[1.1] tracking-tight` |
-| H1      | 36-40px / 1.2        | -0.01em        | `text-4xl leading-tight tracking-tight`             |
-| H2      | 24-28px / 1.3        | -0.01em        | `text-2xl md:text-3xl leading-snug tracking-tight`  |
-| H3      | 20px / 1.4           | 0              | `text-xl leading-normal`                            |
-| Body    | 16px / 1.6           | 0              | `text-base leading-relaxed`                         |
-| Small   | 14px / 1.5           | 0              | `text-sm leading-normal`                            |
-| Caption | 12-13px / 1.5        | +0.01em        | `text-xs text-muted-foreground`                     |
+| Уровень | Размер / line-height | letter-spacing | Tailwind                                                |
+| ------- | -------------------- | -------------- | ------------------------------------------------------- |
+| Display | 48-60px / 1.1        | -0.02em        | `text-5xl md:text-6xl leading-[1.1] tracking-[-0.02em]` |
+| H1      | 36-40px / 1.25       | -0.02em        | `text-4xl leading-tight tracking-[-0.02em]`             |
+| H2      | 24-30px / 1.375      | -0.01em        | `text-2xl md:text-3xl leading-snug tracking-[-0.01em]`  |
+| H3      | 20px / 1.5           | 0              | `text-xl leading-normal`                                |
+| Body    | 16px / 1.625         | 0              | `text-base leading-relaxed`                             |
+| Small   | 14px / 1.5           | 0              | `text-sm leading-normal`                                |
+| Caption | 12px / 1.333         | +0.025em       | `text-xs text-muted-foreground tracking-wide`           |
 
 ### 5.4. Правила применения
 
@@ -328,8 +330,8 @@ kbd {
 
 ### 6.2. Контраст
 
-- Body-текст: **4.5:1** и выше (WCAG AA).
-- Крупный текст (18px+ / 14px bold+): **3:1** и выше.
+- Body-текст: **4.5:1** и выше (WCAG AA, SC 1.4.3).
+- Крупный текст (24px regular / 18.7px bold — WCAG 2.2 определяет как 18pt / 14pt bold): **3:1** и выше.
 - Проверка: Contrast Checker, Lighthouse-аудит.
 - Приглушённый текст (`muted-foreground`) — тоже текст: проверяйте его контраст, а не только основной.
 
@@ -345,10 +347,10 @@ kbd {
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: oklch(0.545 0 0);
   --accent: oklch(0.97 0 0);
   --border: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(0.64 0 0);
 }
 
 .dark {
@@ -364,6 +366,8 @@ kbd {
   --ring: oklch(0.556 0 0);
 }
 ```
+
+Декоративная `--border` от SC 1.4.11 изъята (требование 3:1 действует только для границ, нужных для распознавания компонентов и состояний). Контраст: `--muted-foreground` на `--muted` — 4.54:1 (AA), `--ring` на фоне — 3.36:1 (AA). Тёмную тему менять не требуется: все её текстовые пары проходят AA, кольцо фокуса — 3:1.
 
 ### 6.4. Шкала отступов (8px grid)
 
@@ -465,7 +469,7 @@ kbd {
 }
 ```
 
-Альтернатива без ручного кода — компонент `shimmer-border` из Magic UI.
+Альтернатива без ручного кода — компонент `shine-border` из Magic UI (компонента `shimmer-border` в каталоге нет).
 
 ### 7.6. Spotlight-hover
 
@@ -497,7 +501,7 @@ export function SpotlightCard({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={cn("relative overflow-hidden rounded-xl", className)}
+      className={cn("group relative overflow-hidden rounded-xl", className)}
     >
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -537,7 +541,7 @@ export function SpotlightCard({
 
 **Жёсткие правила:**
 
-1. Анимируются только `transform` и `opacity` (compositor-friendly). `width`/`height`/`top`/`left` — запрещены.
+1. Для перемещений и появления — только `transform` и `opacity` (compositor-friendly). `width`/`height`/`top`/`left` — запрещены. Осознанные исключения с ценой в paint: анимация `--angle` в `conic-gradient` через `@property` (7.5) и `stroke-dashoffset` в SVG-рёбрах (10.4).
 2. Easing: вход — `ease-out`, выход — `ease-in`, перемещение — `ease-in-out` или физика пружин.
 3. Обязательна поддержка `prefers-reduced-motion`: декоративные анимации отключаются.
 
@@ -598,7 +602,7 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.45 } },
 };
 
-export function CardGrid({ children }: { children: React.ReactNode }) {
+export function CardGrid({ items }: { items: React.ReactNode[] }) {
   return (
     <motion.div
       variants={container}
@@ -607,7 +611,11 @@ export function CardGrid({ children }: { children: React.ReactNode }) {
       viewport={{ once: true }}
       className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
     >
-      {children}
+      {items.map((node, index) => (
+        <motion.div key={index} variants={item}>
+          {node}
+        </motion.div>
+      ))}
     </motion.div>
   );
 }
@@ -664,7 +672,7 @@ export function WizardSteps({ steps }: { steps: React.ReactNode[] }) {
 
 | Компонент                              | Применение                                          |
 | -------------------------------------- | --------------------------------------------------- |
-| `shimmer-button`, `shimmer-border`     | CTA-кнопки и карточки с бегущим свечением           |
+| `shimmer-button`, `shine-border`       | CTA-кнопки и карточки с бегущим свечением           |
 | `animated-beam`                        | Визуализация потока между узлами (графы, пайплайны) |
 | `marquee`                              | Бесконечные ленты логотипов, тегов                  |
 | `number-ticker`                        | Счётчики метрик при появлении в вьюпорте            |
@@ -672,6 +680,8 @@ export function WizardSteps({ steps }: { steps: React.ReactNode[] }) {
 | `meteors`, `particles`, `grid-pattern` | Декоративные фоны hero-секций                       |
 | `border-beam`                          | Луч света, бегущий по границе карточки              |
 | `animated-grid-pattern`, `dot-pattern` | Фоновые сетки и точки                               |
+
+Готовый `noise-texture` уже есть в Magic UI — вручную noise писать не обязательно (см. 7.1).
 
 **Интеграция:**
 
@@ -694,10 +704,12 @@ export function AnimatedList({ items }: { items: string[] }) {
   const parent = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    if (parent.current) {
-      autoAnimate(parent.current);
-    }
-  }, [parent]);
+    const el = parent.current;
+    if (!el) return;
+
+    const controller = autoAnimate(el);
+    return () => controller.disable();
+  }, []);
 
   return (
     <ul ref={parent}>
@@ -708,6 +720,8 @@ export function AnimatedList({ items }: { items: string[] }) {
   );
 }
 ```
+
+`autoAnimate()` возвращает контроллер анимаций (`enable` / `disable` / `isEnabled`), а не cleanup-функцию — таков API `@formkit/auto-animate` 0.10.
 
 ### 8.6. Lenis — плавный скролл
 
@@ -1049,7 +1063,7 @@ export function LoginForm({ onSubmit }: { onSubmit: (values: FormValues) => Prom
 - **ARIA:** `aria-label` для иконочных кнопок, `aria-hidden` для декоративных иконок, `role="alert"` для ошибок.
 - **Контраст:** раздел 6.2.
 - **Reduced motion:** раздел 8.1.
-- **Touch targets:** минимальная площадь касания 44x44px.
+- **Touch targets:** минимум WCAG 2.2 AA — 24x24 CSS px (SC 2.5.8 Target Size Minimum); 44x44 CSS px (SC 2.5.5 Target Size Enhanced, уровень AAA и рекомендация Apple HIG) — цель для ключевых контролов.
 - **Экранные читалки:** `sr-only` классы для поясняющего текста.
 - Оба UI-пути стека закрывают примитивы доступности: Radix (в shadcn) или React Aria (в Untitled UI).
 
