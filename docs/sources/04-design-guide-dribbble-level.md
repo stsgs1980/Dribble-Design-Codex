@@ -8,7 +8,7 @@
 
 Крутой дизайн строится на правилах, а не на интуиции. 4 кита:
 
-### 1.1 Типографика — 80% дизайна
+### 1.1 Типографика — бо́льшая часть дизайна (эвристика; часто говорят «80%», источник числа неизвестен)
 
 - Настройте `line-height`: **1.5-1.7** для body-текста.
 - Контролируйте `letter-spacing` и иерархию заголовков.
@@ -53,30 +53,30 @@
 
 ### Визуализация данных
 
-| Библиотека                | Роль                                                                                                       |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| @xyflow/react ^12 + dagre | Node-based графы и схемы: узлы-этапы процессов, рёбра с анимацией потока данных, drag and drop, мини-карта |
-| Tremor (+ recharts)       | Дашборд-карточки, мини-графики                                                                             |
-| react-syntax-highlighter  | Превью кода                                                                                                |
+| Библиотека                            | Роль                                                                                                       |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| @xyflow/react ^12 + @dagrejs/dagre ^3 | Node-based графы и схемы: узлы-этапы процессов, рёбра с анимацией потока данных, drag and drop, мини-карта |
+| Tremor (copy-paste) + recharts ^3.10  | Дашборд-карточки, мини-графики                                                                             |
+| react-syntax-highlighter              | Превью кода                                                                                                |
 
 ### Анимации
 
-| Библиотека                   | Что дает                                                                            |
-| ---------------------------- | ----------------------------------------------------------------------------------- |
-| Motion / Framer Motion       | База: mount/unmount, layout, gesture, `useInView`, `AnimatePresence`                |
-| Magic UI (ручная интеграция) | Shimmer-border, animated beam, marquee, number ticker, dock, particles, border-beam |
-| react-spring                 | Физические пружины — drag-интеракции, elastic-эффекты                               |
-| auto-animate                 | Авто-анимации списков и DOM-перестроек                                              |
-| Lenis                        | Плавный инерционный скролл — "дорогой" feel                                         |
-| sonner                       | Тосты                                                                               |
-| lottie-react                 | Lottie для пустых состояний и загрузок                                              |
+| Библиотека                   | Что дает                                                                          |
+| ---------------------------- | --------------------------------------------------------------------------------- |
+| Motion / Framer Motion       | База: mount/unmount, layout, gesture, `useInView`, `AnimatePresence`              |
+| Magic UI (ручная интеграция) | shine-border, animated beam, marquee, number ticker, dock, particles, border-beam |
+| react-spring                 | Физические пружины — drag-интеракции, elastic-эффекты                             |
+| auto-animate                 | Авто-анимации списков и DOM-перестроек                                            |
+| Lenis                        | Плавный инерционный скролл — "дорогой" feel                                       |
+| sonner                       | Тосты                                                                             |
+| lottie-react                 | Lottie для пустых состояний и загрузок                                            |
 
 ### Иконки
 
-| Библиотека                | Почему не Lucide                                                                                                                  |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Phosphor Icons (основной) | 6 стилей: thin, light, regular, bold, fill, duotone. Двухцветные дают глубину: duotone — активные состояния, regular — неактивные |
-| Iconify React (резерв)    | Более 150 000 иконок через единый `<Icon>` компонент                                                                              |
+| Библиотека                 | Почему не Lucide                                                                                                                  |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Phosphor Icons (основной)  | 6 стилей: thin, light, regular, bold, fill, duotone. Двухцветные дают глубину: duotone — активные состояния, regular — неактивные |
+| @iconify/react ^6 (резерв) | Более 300 000 иконок в 240 наборах через единый `<Icon>` компонент                                                                |
 
 ### Эффекты (чистый CSS, без зависимостей)
 
@@ -85,7 +85,7 @@
 | Noise-текстура            | SVG-фильтр, opacity ~0.03                                         | Фон всей страницы — "аналоговая" текстура как у Linear/Vercel/Raycast |
 | Glassmorphism             | `backdrop-filter: blur(12px) saturate(180%)` + полупрозрачный фон | Навбар, модалки, floating-панели, тултипы                             |
 | Mesh-градиенты            | Слои `radial-gradient`                                            | Hero, фон дашборда, пустые состояния                                  |
-| Animated gradient borders | `@property` + conic-gradient или shimmer-border                   | Карточки, активные элементы                                           |
+| Animated gradient borders | `@property` + conic-gradient или `shine-border`                   | Карточки, активные элементы                                           |
 | Spotlight-hover           | CSS + JS свечение за курсором                                     | Карточки (как у Stripe, Linear)                                       |
 | Grain overlay             | `feTurbulence`, крупное зерно                                     | Точечно на hero/CTA                                                   |
 
@@ -152,7 +152,7 @@ Noise-текстура через SVG-фильтр:
 | Шаги мастеров (wizard) | Slide left/right             | AnimatePresence           |
 | Пустые состояния       | Lottie                       | lottie-react              |
 | Загрузка               | Skeleton + shimmer           | Untitled UI + CSS         |
-| CTA                    | Shimmer-border / border-beam | Magic UI                  |
+| CTA                    | shine-border / border-beam   | Magic UI                  |
 
 ---
 
@@ -160,7 +160,7 @@ Noise-текстура через SVG-фильтр:
 
 Нельзя сделать круто, если не видел крутого. Разбирайте сайты по косточкам (сохраняйте в Pinterest / Are.na):
 
-- godly.website — лучшая подборка современных анимированных сайтов.
+- recent.design — лучшая подборка современных анимированных сайтов (прежний адрес godly.website перенаправляет сюда).
 - awwwards.com — классика; изучайте переходы страницами.
 - land-book.com — структура и композиция лендингов.
 - mobbin.com — реальные UI-паттерны топовых SaaS.
@@ -186,7 +186,7 @@ YouTube:
 
 Упражнение: редизайн старого проекта в стиле Linear или Apple.
 
-AI как помощник: v0.dev для стартовой точки кода, Midjourney для идей и ассетов. Не замена, а ускоритель.
+AI как помощник: v0.app (прежний адрес v0.dev перенаправляет сюда) для стартовой точки кода, Midjourney для идей и ассетов. Не замена, а ускоритель.
 
 ---
 
@@ -224,7 +224,7 @@ AI как помощник: v0.dev для стартовой точки кода
 UI:             Tailwind CSS 4 + @tailwindcss/postcss
                 Untitled UI React (или shadcn/ui + Radix)
                 clsx + tailwind-merge + cva, React Aria (при Untitled UI)
-Визуализация:   @xyflow/react ^12 + dagre, Tremor + recharts
+Визуализация:   @xyflow/react ^12 + @dagrejs/dagre ^3, Tremor (copy-paste) + recharts ^3.10
                 react-syntax-highlighter
 Анимации:       Motion/Framer Motion, Magic UI, react-spring, auto-animate
                 Lenis, sonner
@@ -235,5 +235,5 @@ UI:             Tailwind CSS 4 + @tailwindcss/postcss
                 lottie-react (состояния), React SVG Pan Zoom
 Состояние:      Zustand (клиентское) + TanStack Query (серверное)
 Формы:          React Hook Form + Zod
-Шрифты:         Geist / Satoshi (заголовки), Inter (body), JetBrains Mono (код)
+Шрифты:         Geist (заголовки, кириллица в комплекте), Inter (body), JetBrains Mono (код); Satoshi — только латиница
 ```

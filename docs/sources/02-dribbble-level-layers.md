@@ -8,9 +8,9 @@ Dribbble-уровень — это не одна библиотека, а **сл
 
 ## Слой 1: База (фундамент)
 
-Базовый стек покрывает около 40% визуального уровня:
+Базовый стек покрывает около 40% визуального уровня (эвристика автора слоя, независимая от правила «типографика — 80%» из других источников):
 
-- shadcn/ui, Radix, Tailwind 4, Motion, Tremor — это база.
+- shadcn/ui, Radix, Tailwind 4, Motion — это база. Tremor указан условно: npm-пакет `@tremor/react` 3.18.7 требует React 18, поэтому на React 19 используется copy-paste модель Tremor (проект Vercel с 2025-01-22).
 - Без этого дальше нет смысла.
 
 ---
@@ -19,7 +19,7 @@ Dribbble-уровень — это не одна библиотека, а **сл
 
 **Magic UI** — обязателен. Именно он дает те самые "Dribbble-эффекты":
 
-- Shimmer-бордеры, gradient-фоны.
+- Shine-бордеры (`shine-border` из Magic UI), gradient-фоны.
 - Marquee-ленты.
 - Animated beam (идеально для визуализации потоков данных).
 - Number ticker (для счетчиков и метрик).
@@ -36,7 +36,7 @@ Dribbble-уровень — это не одна библиотека, а **сл
 
 Для Dribbble-уровня нужен более выразительный набор:
 
-- **Заголовки:** `Geist` (от Vercel), `Satoshi` (от Fontshare) или `Cabinet Grotesk`.
+- **Заголовки:** `Geist` (от Vercel, кириллица полная). `Satoshi` и `Cabinet Grotesk` — только для латиницы: кириллицы в них нет.
 - **Body:** `Inter` подойдет (он хорош для текста, просто не для заголовков).
 - **Моноширинный:** `JetBrains Mono` — хороший выбор.
 
@@ -49,7 +49,7 @@ Dribbble-уровень — это не одна библиотека, а **сл
 **Lucide** — функциональный, но скучный. Для премиум-визуала:
 
 - **Phosphor Icons** — 6 стилей (thin/light/regular/bold/duotone/fill) в одной библиотеке.
-- Или **Iconify** — доступ к 100+ наборам иконок через единый API.
+- Или **Iconify** — 240 наборов и более 300 000 иконок через единый API (замер API Iconify, 2026-10-11).
 
 Phosphor дает визуальную глубину за счет duotone-варианта — этого Lucide не умеет.
 
@@ -65,7 +65,7 @@ Phosphor дает визуальную глубину за счет duotone-ва
 | Glassmorphism               | Tailwind `backdrop-blur` + `bg-white/10` | Navbar, модалки, мастера по шагам |
 | Mesh-градиенты              | CSS `radial-gradient` слои               | Фон дашборда, лендинг             |
 | Grain-оверлей               | SVG-фильтр `feTurbulence`                | На всю страницу тонким слоем      |
-| Animated gradient borders   | Magic UI `shimmer-border`                | Активные карточки                 |
+| Animated gradient borders   | Magic UI `shine-border`                  | Активные карточки                 |
 | Smooth scroll               | **Lenis**                                | Общая плавность скролла           |
 | Reveal-анимации при скролле | **Framer Motion** + `useInView`          | Все секции при появлении          |
 
