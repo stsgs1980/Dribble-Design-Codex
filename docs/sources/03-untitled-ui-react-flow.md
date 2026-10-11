@@ -233,7 +233,7 @@ UI (вместо shadcn):
   React Hook Form + Zod
 
 Шрифты:
-  Geist / Satoshi (заголовки)
+  Geist (заголовки; Satoshi — только латиница, кириллицы нет)
   Inter (body)
   JetBrains Mono (code)
 ```

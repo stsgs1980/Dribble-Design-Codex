@@ -86,10 +86,10 @@ Lottie-анимация на ключевом шаге пользователь�
 ## Итоговый рецепт
 
 ```text
-Базовый стек (shadcn/ui + Radix + Tailwind 4 + Motion + Tremor)
+Базовый стек (shadcn/ui + Radix + Tailwind 4 + Motion; Tremor — только copy-paste модель, см. слой 1)
   + Magic UI          (анимированные компоненты)
   + Phosphor Icons    (или Iconify)
-  + Geist / Satoshi   (заголовочный шрифт)
+  + Geist             (заголовочный шрифт; Satoshi — только латиница)
   + Lenis             (smooth scroll)
   + lottie-react      (анимации пустых состояний)
   + SVG noise-текстура (CSS-фильтр, без зависимостей)
