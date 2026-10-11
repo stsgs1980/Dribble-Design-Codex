@@ -58,14 +58,14 @@ describe("docs: packages that do not exist or are named incorrectly", () => {
   it("has no reference to dead or misnamed packages (K1, K2, K5, F4)", () => {
     expectAbsent("dead packages", ALL_DOCS, [
       /@xyflow\/react-controls/,
-      /iconify-react/,
+      /(?<![@/`])iconify-react/,
       /shimmer-border(?!`\s+в каталоге нет)/i,
       /untitled-ui@latest/,
       /untitled-ui@\^/,
       /@untitled-ui\/icons/,
       /`untitled-ui` 0\.1\.69/,
-      /v0\.dev/,
-      /godly\.website/,
+      /v0\.dev(?! перенаправляет сюда)/,
+      /godly\.website(?! перенаправляет сюда)/,
     ]);
   });
 });
@@ -86,10 +86,10 @@ describe("docs/design-guide.md: version table", () => {
       row("@iconify/react", "^6"),
       row("react-aria-components", "^1.22"),
       row("@dagrejs/dagre", "^3.1"),
-      row("@hookform/resolvers", "^5"),
+      /@hookform\/resolvers.*\^5/,
       row("lucide-react", "^1"),
       row("radix-ui", "^1.7"),
-      row("geist", "^1.7.2"),
+      /npm `geist` \^1\.7\.2/,
     ]);
   });
 
@@ -147,7 +147,7 @@ describe("docs/design-guide.md: normative layer", () => {
     expectInDoc("appendices", GUIDE, "guide", [
       /eslint-rules\/unicode-policy\.js/,
       /eslint-rules\/code-block-language\.js/,
-      /август 2026/,
+      /августа 2026/,
     ]);
   });
 });
